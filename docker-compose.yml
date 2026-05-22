@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: regulatrack_postgres
+    environment:
+      POSTGRES_DB: regulatrack
+      POSTGRES_USER: regulatrack
+      POSTGRES_PASSWORD: regulatrack
+    ports:
+      - "5432:5432"
+    volumes:
+      - regulatrack_pgdata:/var/lib/postgresql/data
+
+volumes:
+  regulatrack_pgdata:
