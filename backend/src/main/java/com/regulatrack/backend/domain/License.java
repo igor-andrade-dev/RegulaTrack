@@ -19,9 +19,20 @@ public class License {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
     private String name;
+
     private String description;
+
     private String category;
+
     private String issuer;
 
     @Column(name = "expires_at")

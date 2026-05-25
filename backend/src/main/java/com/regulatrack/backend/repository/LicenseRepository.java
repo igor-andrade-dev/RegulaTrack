@@ -10,7 +10,7 @@ public interface LicenseRepository extends JpaRepository<License, Long> {
 
     List<License> findByStatus(LicenseStatus status);
 
-    List<License> findByCompanyId(Long companyId);
+    List<License> findByCompany_Id(Long companyId);
 
-    List<License> findByBranchId(Long branchId);
+    List<License> findByBranch_Id(Long branchId);
 }
