@@ -12,9 +12,14 @@ public record LicenseResponse(
         String name,
         String description,
         String category,
+        String licenseNumber,
         String issuer,
+        LocalDate issuedAt,
         LocalDate expiresAt,
+        String responsibleName,
+        String responsibleEmail,
         LicenseStatus status,
+        String notes,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

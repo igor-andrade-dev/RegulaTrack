@@ -10,8 +10,13 @@ public record CreateLicenseRequest(
         String name,
         String description,
         String category,
+        String licenseNumber,
         String issuer,
+        LocalDate issuedAt,
         LocalDate expiresAt,
-        LicenseStatus status
+        String responsibleName,
+        String responsibleEmail,
+        LicenseStatus status,
+        String notes
 ) {
 }

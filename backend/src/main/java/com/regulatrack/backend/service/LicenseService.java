@@ -69,9 +69,14 @@ public class LicenseService {
         license.setName(request.name());
         license.setDescription(request.description());
         license.setCategory(request.category());
+        license.setLicenseNumber(request.licenseNumber());
         license.setIssuer(request.issuer());
+        license.setIssuedAt(request.issuedAt());
         license.setExpiresAt(request.expiresAt());
+        license.setResponsibleName(request.responsibleName());
+        license.setResponsibleEmail(request.responsibleEmail());
         license.setStatus(request.status() != null ? request.status() : LicenseStatus.PENDING);
+        license.setNotes(request.notes());
 
         License savedLicense = licenseRepository.save(license);
 
@@ -91,9 +96,14 @@ public class LicenseService {
         license.setName(request.name());
         license.setDescription(request.description());
         license.setCategory(request.category());
+        license.setLicenseNumber(request.licenseNumber());
         license.setIssuer(request.issuer());
+        license.setIssuedAt(request.issuedAt());
         license.setExpiresAt(request.expiresAt());
+        license.setResponsibleName(request.responsibleName());
+        license.setResponsibleEmail(request.responsibleEmail());
         license.setStatus(request.status() != null ? request.status() : license.getStatus());
+        license.setNotes(request.notes());
 
         License updatedLicense = licenseRepository.save(license);
 
@@ -134,9 +144,14 @@ public class LicenseService {
                 license.getName(),
                 license.getDescription(),
                 license.getCategory(),
+                license.getLicenseNumber(),
                 license.getIssuer(),
+                license.getIssuedAt(),
                 license.getExpiresAt(),
+                license.getResponsibleName(),
+                license.getResponsibleEmail(),
                 license.getStatus(),
+                license.getNotes(),
                 license.getCreatedAt(),
                 license.getUpdatedAt()
         );
