@@ -6,23 +6,23 @@ import jakarta.validation.constraints.Size;
 
 public record UpdateBranchRequest(
 
-        @NotNull(message = "O id da empresa é obrigatório")
+        @NotNull(message = "Empresa é obrigatória")
         Long companyId,
 
-        @NotBlank(message = "O nome da unidade é obrigatório")
-        @Size(max = 150, message = "O nome deve ter no máximo 150 caracteres")
+        @NotBlank(message = "Nome da filial é obrigatório")
+        @Size(max = 150, message = "Nome da filial deve ter no máximo 150 caracteres")
         String name,
 
-        @Size(max = 255, message = "O endereço deve ter no máximo 255 caracteres")
+        @Size(max = 150, message = "Endereço deve ter no máximo 150 caracteres")
         String address,
 
-        @Size(max = 100, message = "A cidade deve ter no máximo 100 caracteres")
+        @Size(max = 100, message = "Cidade deve ter no máximo 100 caracteres")
         String city,
 
-        @Size(max = 100, message = "O estado deve ter no máximo 100 caracteres")
+        @Size(max = 50, message = "Estado deve ter no máximo 50 caracteres")
         String state,
 
-        @Size(max = 100, message = "O país deve ter no máximo 100 caracteres")
+        @Size(max = 100, message = "País deve ter no máximo 100 caracteres")
         String country
 ) {
 }

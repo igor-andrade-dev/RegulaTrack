@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public CompanyResponse create(@RequestBody @Valid CreateCompanyRequest request) {
-        return companyService.create(request);
+    public ResponseEntity<CompanyResponse> create(@Valid @RequestBody CreateCompanyRequest request) {
+        CompanyResponse response = companyService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -35,11 +36,11 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public CompanyResponse update(
+    public ResponseEntity<CompanyResponse> update(
             @PathVariable Long id,
-            @RequestBody @Valid UpdateCompanyRequest request
+            @Valid @RequestBody UpdateCompanyRequest request
     ) {
-        return companyService.update(id, request);
+        return ResponseEntity.ok(companyService.update(id, request));
     }
 
     @DeleteMapping("/{id}")

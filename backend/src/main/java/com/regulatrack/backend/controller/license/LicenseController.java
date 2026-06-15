@@ -7,6 +7,7 @@ import com.regulatrack.backend.service.license.LicenseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class LicenseController {
     }
 
     @PostMapping
-    public ResponseEntity<LicenseResponse> create(@RequestBody CreateLicenseRequest request) {
+    public ResponseEntity<LicenseResponse> create(@Valid @RequestBody CreateLicenseRequest request) {
         LicenseResponse response = licenseService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -67,7 +68,7 @@ public class LicenseController {
     @PutMapping("/{id}")
     public ResponseEntity<LicenseResponse> update(
             @PathVariable Long id,
-            @RequestBody UpdateLicenseRequest request
+            @Valid @RequestBody UpdateLicenseRequest request
     ) {
         return ResponseEntity.ok(licenseService.update(id, request));
     }
