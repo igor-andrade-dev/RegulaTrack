@@ -3,6 +3,7 @@ package com.regulatrack.backend.service.license;
 import com.regulatrack.backend.domain.branch.Branch;
 import com.regulatrack.backend.domain.company.Company;
 import com.regulatrack.backend.domain.license.License;
+import com.regulatrack.backend.domain.license.LicenseStatus;
 import com.regulatrack.backend.dto.license.CreateLicenseRequest;
 import com.regulatrack.backend.dto.license.LicenseResponse;
 import com.regulatrack.backend.dto.license.UpdateLicenseRequest;
@@ -115,6 +116,29 @@ public class LicenseService {
     public void delete(Long id) {
         License license = findLicenseById(id);
         licenseRepository.delete(license);
+    }
+
+    public List<LicenseResponse> findActive() {
+        return findByStatus(LicenseStatus.ACTIVE);
+    }
+
+    public List<LicenseResponse> findExpired() {
+        return findByStatus(LicenseStatus.EXPIRED);
+    }
+
+    public List<LicenseResponse> findExpiringSoon() {
+        return findByStatus(LicenseStatus.EXPIRING_SOON);
+    }
+
+    public List<LicenseResponse> findPending() {
+        return findByStatus(LicenseStatus.PENDING);
+    }
+
+    private List<LicenseResponse> findByStatus(LicenseStatus status) {
+        return licenseRepository.findByStatus(status)
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     private License findLicenseById(Long id) {

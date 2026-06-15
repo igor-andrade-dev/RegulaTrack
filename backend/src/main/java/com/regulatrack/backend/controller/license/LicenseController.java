@@ -24,7 +24,25 @@ public class LicenseController {
     public ResponseEntity<List<LicenseResponse>> findAll() {
         return ResponseEntity.ok(licenseService.findAll());
     }
+    @GetMapping("/active")
+    public ResponseEntity<List<LicenseResponse>> findActive() {
+        return ResponseEntity.ok(licenseService.findActive());
+    }
 
+    @GetMapping("/expired")
+    public ResponseEntity<List<LicenseResponse>> findExpired() {
+        return ResponseEntity.ok(licenseService.findExpired());
+    }
+
+    @GetMapping("/expiring-soon")
+    public ResponseEntity<List<LicenseResponse>> findExpiringSoon() {
+        return ResponseEntity.ok(licenseService.findExpiringSoon());
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<List<LicenseResponse>> findPending() {
+        return ResponseEntity.ok(licenseService.findPending());
+    }
     @GetMapping("/{id}")
     public ResponseEntity<LicenseResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(licenseService.findById(id));
