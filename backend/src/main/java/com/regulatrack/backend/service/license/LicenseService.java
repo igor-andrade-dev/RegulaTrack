@@ -10,6 +10,8 @@ import com.regulatrack.backend.dto.license.UpdateLicenseRequest;
 import com.regulatrack.backend.repository.branch.BranchRepository;
 import com.regulatrack.backend.repository.company.CompanyRepository;
 import com.regulatrack.backend.repository.license.LicenseRepository;
+import com.regulatrack.backend.exception.BadRequestException;
+import com.regulatrack.backend.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -133,32 +135,30 @@ public class LicenseService {
     public List<LicenseResponse> findPending() {
         return findByStatus(LicenseStatus.PENDING);
     }
-
     private List<LicenseResponse> findByStatus(LicenseStatus status) {
         return licenseRepository.findByStatus(status)
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
-
     private License findLicenseById(Long id) {
         return licenseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Licença não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Licença não encontrada"));
     }
 
     private Company findCompanyById(Long companyId) {
         return companyRepository.findById(companyId)
-                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
     }
 
     private Branch findBranchById(Long branchId) {
         return branchRepository.findById(branchId)
-                .orElseThrow(() -> new RuntimeException("Filial não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Filial não encontrada"));
     }
 
     private void validateBranchBelongsToCompany(Branch branch, Company company) {
         if (!branch.getCompany().getId().equals(company.getId())) {
-            throw new RuntimeException("A filial informada não pertence à empresa informada");
+            throw new BadRequestException("A filial informada não pertence à empresa informada");
         }
     }
 
