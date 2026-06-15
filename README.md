@@ -236,10 +236,7 @@ The project currently includes the core backend structure, CRUD operations, auto
 
 ## Next Steps
 
-* Add authentication and authorization
-* Add document upload for licenses
-* Add advanced search and pagination
-* Add audit logs
-* Add frontend dashboard
-* Add automated tests
-* Add Docker Compose configuration
+- Add automated tests
+- Add pagination and search filters
+- Add Docker Compose profile for backend and database
+- Add authentication and authorization
