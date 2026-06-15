@@ -1,11 +1,11 @@
-package com.regulatrack.backend.service;
+package com.regulatrack.backend.service.company;
 
-import com.regulatrack.backend.domain.Company;
+import com.regulatrack.backend.domain.company.Company;
 import com.regulatrack.backend.dto.company.CompanyResponse;
 import com.regulatrack.backend.dto.company.CreateCompanyRequest;
 import com.regulatrack.backend.dto.company.UpdateCompanyRequest;
 import com.regulatrack.backend.exception.ResourceNotFoundException;
-import com.regulatrack.backend.repository.CompanyRepository;
+import com.regulatrack.backend.repository.company.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

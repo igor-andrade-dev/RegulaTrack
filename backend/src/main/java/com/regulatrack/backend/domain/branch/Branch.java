@@ -1,31 +1,33 @@
-package com.regulatrack.backend.domain;
+package com.regulatrack.backend.domain.branch;
 
+import com.regulatrack.backend.domain.company.Company;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "companies")
+@Table(name = "branches")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Company {
+public class Branch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
     private String name;
-
-    @Column(name = "document_number")
-    private String documentNumber;
-
-    private String segment;
-    private String country;
+    private String address;
     private String city;
+    private String state;
+    private String country;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

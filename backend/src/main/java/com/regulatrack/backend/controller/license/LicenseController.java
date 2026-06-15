@@ -1,9 +1,9 @@
-package com.regulatrack.backend.controller;
+package com.regulatrack.backend.controller.license;
 
 import com.regulatrack.backend.dto.license.CreateLicenseRequest;
 import com.regulatrack.backend.dto.license.LicenseResponse;
 import com.regulatrack.backend.dto.license.UpdateLicenseRequest;
-import com.regulatrack.backend.service.LicenseService;
+import com.regulatrack.backend.service.license.LicenseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

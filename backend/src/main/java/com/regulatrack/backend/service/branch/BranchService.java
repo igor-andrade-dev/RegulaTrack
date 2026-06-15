@@ -1,13 +1,13 @@
-package com.regulatrack.backend.service;
+package com.regulatrack.backend.service.branch;
 
-import com.regulatrack.backend.domain.Branch;
-import com.regulatrack.backend.domain.Company;
+import com.regulatrack.backend.domain.branch.Branch;
+import com.regulatrack.backend.domain.company.Company;
 import com.regulatrack.backend.dto.branch.BranchResponse;
 import com.regulatrack.backend.dto.branch.CreateBranchRequest;
 import com.regulatrack.backend.dto.branch.UpdateBranchRequest;
 import com.regulatrack.backend.exception.ResourceNotFoundException;
-import com.regulatrack.backend.repository.BranchRepository;
-import com.regulatrack.backend.repository.CompanyRepository;
+import com.regulatrack.backend.repository.branch.BranchRepository;
+import com.regulatrack.backend.repository.company.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

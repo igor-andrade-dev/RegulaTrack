@@ -1,15 +1,14 @@
-package com.regulatrack.backend.service;
+package com.regulatrack.backend.service.license;
 
-import com.regulatrack.backend.domain.Branch;
-import com.regulatrack.backend.domain.Company;
+import com.regulatrack.backend.domain.branch.Branch;
+import com.regulatrack.backend.domain.company.Company;
 import com.regulatrack.backend.domain.license.License;
-import com.regulatrack.backend.domain.license.LicenseStatus;
 import com.regulatrack.backend.dto.license.CreateLicenseRequest;
 import com.regulatrack.backend.dto.license.LicenseResponse;
 import com.regulatrack.backend.dto.license.UpdateLicenseRequest;
-import com.regulatrack.backend.repository.BranchRepository;
-import com.regulatrack.backend.repository.CompanyRepository;
-import com.regulatrack.backend.repository.LicenseRepository;
+import com.regulatrack.backend.repository.branch.BranchRepository;
+import com.regulatrack.backend.repository.company.CompanyRepository;
+import com.regulatrack.backend.repository.license.LicenseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +19,18 @@ public class LicenseService {
     private final LicenseRepository licenseRepository;
     private final CompanyRepository companyRepository;
     private final BranchRepository branchRepository;
+    private final LicenseStatusService licenseStatusService;
 
     public LicenseService(
             LicenseRepository licenseRepository,
             CompanyRepository companyRepository,
-            BranchRepository branchRepository
+            BranchRepository branchRepository,
+            LicenseStatusService licenseStatusService
     ) {
         this.licenseRepository = licenseRepository;
         this.companyRepository = companyRepository;
         this.branchRepository = branchRepository;
+        this.licenseStatusService = licenseStatusService;
     }
 
     public List<LicenseResponse> findAll() {
@@ -75,7 +77,7 @@ public class LicenseService {
         license.setExpiresAt(request.expiresAt());
         license.setResponsibleName(request.responsibleName());
         license.setResponsibleEmail(request.responsibleEmail());
-        license.setStatus(request.status() != null ? request.status() : LicenseStatus.PENDING);
+        license.setStatus(licenseStatusService.calculateStatus(request.expiresAt()));
         license.setNotes(request.notes());
 
         License savedLicense = licenseRepository.save(license);
@@ -102,7 +104,7 @@ public class LicenseService {
         license.setExpiresAt(request.expiresAt());
         license.setResponsibleName(request.responsibleName());
         license.setResponsibleEmail(request.responsibleEmail());
-        license.setStatus(request.status() != null ? request.status() : license.getStatus());
+        license.setStatus(licenseStatusService.calculateStatus(request.expiresAt()));
         license.setNotes(request.notes());
 
         License updatedLicense = licenseRepository.save(license);

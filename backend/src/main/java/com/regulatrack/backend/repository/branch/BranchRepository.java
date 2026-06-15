@@ -1,6 +1,6 @@
-package com.regulatrack.backend.repository;
+package com.regulatrack.backend.repository.branch;
 
-import com.regulatrack.backend.domain.Branch;
+import com.regulatrack.backend.domain.branch.Branch;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

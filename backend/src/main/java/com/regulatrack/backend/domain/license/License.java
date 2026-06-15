@@ -1,7 +1,7 @@
 package com.regulatrack.backend.domain.license;
 
-import com.regulatrack.backend.domain.Branch;
-import com.regulatrack.backend.domain.Company;
+import com.regulatrack.backend.domain.branch.Branch;
+import com.regulatrack.backend.domain.company.Company;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,9 +1,9 @@
-package com.regulatrack.backend.controller;
+package com.regulatrack.backend.controller.branch;
 
 import com.regulatrack.backend.dto.branch.BranchResponse;
 import com.regulatrack.backend.dto.branch.CreateBranchRequest;
 import com.regulatrack.backend.dto.branch.UpdateBranchRequest;
-import com.regulatrack.backend.service.BranchService;
+import com.regulatrack.backend.service.branch.BranchService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

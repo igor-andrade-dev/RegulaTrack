@@ -1,4 +1,4 @@
-package com.regulatrack.backend.repository;
+package com.regulatrack.backend.repository.license;
 
 import com.regulatrack.backend.domain.license.License;
 import org.springframework.data.jpa.repository.JpaRepository;

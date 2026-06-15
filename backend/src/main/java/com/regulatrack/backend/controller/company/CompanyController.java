@@ -1,9 +1,9 @@
-package com.regulatrack.backend.controller;
+package com.regulatrack.backend.controller.company;
 
 import com.regulatrack.backend.dto.company.CompanyResponse;
 import com.regulatrack.backend.dto.company.CreateCompanyRequest;
 import com.regulatrack.backend.dto.company.UpdateCompanyRequest;
-import com.regulatrack.backend.service.CompanyService;
+import com.regulatrack.backend.service.company.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
