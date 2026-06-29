@@ -1,0 +1,99 @@
+<main class="company-edit-page">
+  <header class="company-edit-header">
+    <div>
+      <span class="company-edit-eyebrow">RegulaTrack</span>
+      <h1>Edit Company</h1>
+      <p>Update company registration data.</p>
+    </div>
+  </header>
+
+  <section class="edit-toolbar">
+    <div>
+      <strong>Editing company</strong>
+      <span>Update the fields below and save your changes.</span>
+    </div>
+
+    <a [routerLink]="['/companies', companyId]" class="edit-toolbar-action">
+      Back to Details
+    </a>
+  </section>
+
+  @if (loading) {
+  <p class="company-edit-state">Loading company data...</p>
+  }
+
+  @if (errorMessage) {
+  <p class="form-error">{{ errorMessage }}</p>
+  }
+
+  @if (!loading && !errorMessage) {
+  <section class="form-card">
+    <form (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            [(ngModel)]="form.name"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="documentNumber">Document Number</label>
+          <input
+            id="documentNumber"
+            name="documentNumber"
+            type="text"
+            required
+            [(ngModel)]="form.documentNumber"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="segment">Segment</label>
+          <input
+            id="segment"
+            name="segment"
+            type="text"
+            required
+            [(ngModel)]="form.segment"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="country">Country</label>
+          <input
+            id="country"
+            name="country"
+            type="text"
+            required
+            [(ngModel)]="form.country"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="city">City</label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            required
+            [(ngModel)]="form.city"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="saving">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+
+        <a [routerLink]="['/companies', companyId]" class="cancel-link">Cancel</a>
+      </div>
+    </form>
+  </section>
+  }
+</main>

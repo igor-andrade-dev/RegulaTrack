@@ -1,0 +1,84 @@
+<main class="branch-details-page">
+  <header class="branch-details-header">
+    <div>
+      <span class="branch-details-eyebrow">RegulaTrack</span>
+      <h1>Branch Details</h1>
+      <p>Detailed information about the selected operational unit.</p>
+    </div>
+  </header>
+
+  @if (errorMessage) {
+  <p class="branch-details-error">{{ errorMessage }}</p>
+  }
+
+  @if (branch$ | async; as branch) {
+  <section class="details-toolbar">
+    <div>
+      <strong>{{ branch.name }}</strong>
+      <span>{{ branch.companyName }}</span>
+    </div>
+
+    <div class="details-toolbar-actions">
+      <a [routerLink]="['/branches', branch.id, 'edit']" class="details-action edit">
+        Edit
+      </a>
+
+      <button
+        type="button"
+        class="details-action delete"
+        [disabled]="deleting"
+        (click)="deleteBranch(branch.id)"
+      >
+        {{ deleting ? 'Deleting...' : 'Delete' }}
+      </button>
+
+      <a routerLink="/branches" class="details-action back">
+        Back
+      </a>
+    </div>
+  </section>
+
+  <section class="details-card">
+    <div class="details-title">
+      <div>
+        <h2>{{ branch.name }}</h2>
+        <p>{{ branch.address || 'No address registered.' }}</p>
+      </div>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <span>Company</span>
+        <strong>{{ branch.companyName }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>City</span>
+        <strong>{{ branch.city || 'Not informed' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>State</span>
+        <strong>{{ branch.state || 'Not informed' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Country</span>
+        <strong>{{ branch.country || 'Not informed' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Created At</span>
+        <strong>{{ branch.createdAt }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Updated At</span>
+        <strong>{{ branch.updatedAt }}</strong>
+      </div>
+    </div>
+  </section>
+  } @else {
+  <p class="branch-details-state">Loading branch details...</p>
+  }
+</main>

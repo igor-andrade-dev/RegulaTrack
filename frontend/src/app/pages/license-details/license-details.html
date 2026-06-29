@@ -1,0 +1,103 @@
+<main class="license-details-page">
+  <header class="license-details-header">
+    <div>
+      <span class="license-details-eyebrow">RegulaTrack</span>
+      <h1>License Details</h1>
+      <p>Detailed information about the selected regulatory license.</p>
+    </div>
+  </header>
+
+  @if (license$ | async; as license) {
+  <section class="details-toolbar">
+    <div>
+      <strong>{{ license.name }}</strong>
+      <span>{{ license.licenseNumber }}</span>
+    </div>
+
+    <div class="details-toolbar-actions">
+      <a [routerLink]="['/licenses', license.id, 'edit']" class="details-action edit">
+        ✎ Edit
+      </a>
+
+      <button
+        type="button"
+        class="details-action delete"
+        [disabled]="deleting"
+        (click)="deleteLicense(license.id)"
+      >
+        🗑 {{ deleting ? 'Deleting...' : 'Delete' }}
+      </button>
+
+      <a routerLink="/licenses" class="details-action back">
+        Back
+      </a>
+    </div>
+  </section>
+  <section class="details-card">
+    <div class="details-title">
+      <div>
+        <h2>{{ license.name }}</h2>
+        <p>{{ license.description }}</p>
+      </div>
+
+      <span class="license-status" [class]="getStatusClass(license.status)">
+          {{ getStatusLabel(license.status) }}
+        </span>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <span>Category</span>
+        <strong>{{ license.category }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>License Number</span>
+        <strong>{{ license.licenseNumber }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Issuer</span>
+        <strong>{{ license.issuer }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Issued At</span>
+        <strong>{{ license.issuedAt }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Expires At</span>
+        <strong>{{ license.expiresAt || 'No expiration' }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Responsible</span>
+        <strong>{{ license.responsibleName }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Responsible Email</span>
+        <strong>{{ license.responsibleEmail }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Company ID</span>
+        <strong>{{ license.companyId }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Branch ID</span>
+        <strong>{{ license.branchId }}</strong>
+      </div>
+    </div>
+
+    <div class="notes">
+      <span>Notes</span>
+      <p>{{ license.notes || 'No notes registered.' }}</p>
+    </div>
+  </section>
+  } @else {
+  <p class="license-details-state">Loading license details...</p>
+  }
+</main>

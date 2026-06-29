@@ -1,0 +1,66 @@
+<main class="companies-page">
+  <header class="companies-header">
+    <div>
+      <span class="companies-eyebrow">RegulaTrack</span>
+      <h1>Companies</h1>
+      <p>Companies registered in the regulatory license management system.</p>
+    </div>
+
+    <a routerLink="/companies/new" class="new-company-link">New Company</a>
+  </header>
+
+  @if (errorMessage) {
+  <p class="companies-error">{{ errorMessage }}</p>
+  }
+
+  @if (companies$ | async; as companies) {
+  @if (companies.length > 0) {
+  <section class="companies-table-card">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Document Number</th>
+        <th>Segment</th>
+        <th>Country</th>
+        <th>City</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (company of companies; track company.id) {
+      <tr>
+        <td>{{ company.name }}</td>
+        <td>{{ company.documentNumber }}</td>
+        <td>{{ company.segment }}</td>
+        <td>{{ company.country }}</td>
+        <td>{{ company.city }}</td>
+        <td>{{ company.createdAt }}</td>
+
+        <td class="actions">
+          <a [routerLink]="['/companies', company.id]">View</a>
+
+          <a [routerLink]="['/companies', company.id, 'edit']">Edit</a>
+
+          <button
+            type="button"
+            (click)="deleteCompany(company.id)"
+            [disabled]="deletingId === company.id"
+          >
+            {{ deletingId === company.id ? 'Deleting...' : 'Delete' }}
+          </button>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+  </section>
+  } @else {
+  <p class="companies-state">No companies found.</p>
+  }
+  } @else {
+  <p class="companies-state">Loading companies...</p>
+  }
+</main>

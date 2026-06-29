@@ -1,0 +1,136 @@
+<main class="licenses-page">
+  <header class="licenses-header">
+    <div>
+      <span class="licenses-eyebrow">RegulaTrack</span>
+      <h1>Licenses</h1>
+      <p>List and filter regulatory licenses registered in the system.</p>
+    </div>
+  </header>
+  <section class="licenses-toolbar">
+    <a routerLink="/licenses/new" class="new-license-link">
+      <span class="new-license-icon">+</span>
+      <span>New License</span>
+    </a>
+  </section>
+
+  <section class="licenses-filters">
+    <form (ngSubmit)="search()">
+      <div class="filter-field">
+        <label for="status">Status</label>
+        <select id="status" name="status" [(ngModel)]="filters.status">
+          <option value="">All</option>
+          <option value="ACTIVE">Active</option>
+          <option value="EXPIRING_SOON">Expiring Soon</option>
+          <option value="EXPIRED">Expired</option>
+          <option value="PENDING">Pending</option>
+        </select>
+      </div>
+
+      <div class="filter-field">
+        <label for="category">Category</label>
+        <input
+          id="category"
+          name="category"
+          type="text"
+          placeholder="Example: Ambiental"
+          [(ngModel)]="filters.category"
+        />
+      </div>
+
+      <div class="filter-field">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Search by license name"
+          [(ngModel)]="filters.name"
+        />
+      </div>
+
+      <div class="filter-actions">
+        <button type="submit">Apply Filters</button>
+        <button type="button" class="secondary" (click)="clearFilters()">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  @if (licensesResponse$ | async; as response) {
+  <div class="licenses-result-info">
+    Showing {{ response.content.length }} of {{ response.totalElements }} licenses
+  </div>
+
+  @if (response.content.length > 0) {
+  <section class="licenses-table-card">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>License Number</th>
+        <th>Issuer</th>
+        <th>Expires At</th>
+        <th>Responsible</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      @for (license of response.content; track license.id) {
+      <tr>
+        <td>{{ license.name }}</td>
+        <td>{{ license.category }}</td>
+        <td>{{ license.licenseNumber }}</td>
+        <td>{{ license.issuer }}</td>
+        <td>{{ license.expiresAt || 'No expiration' }}</td>
+        <td>{{ license.responsibleName }}</td>
+        <td>
+                  <span class="license-status" [class]="getStatusClass(license.status)">
+                    {{ getStatusLabel(license.status) }}
+                  </span>
+        </td>
+        <td>
+          <div class="table-actions">
+            <a
+              class="action-button view"
+              [routerLink]="['/licenses', license.id]"
+              title="View license"
+              aria-label="View license"
+            >
+              👁
+            </a>
+
+            <a
+              class="action-button edit"
+              [routerLink]="['/licenses', license.id, 'edit']"
+              title="Edit license"
+              aria-label="Edit license"
+            >
+              ✎
+            </a>
+
+            <button
+              type="button"
+              class="action-button delete"
+              title="Delete license"
+              aria-label="Delete license"
+              [disabled]="deletingId === license.id"
+              (click)="deleteLicense(license.id)"
+            >
+              {{ deletingId === license.id ? '...' : '🗑' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+      </tbody>
+    </table>
+  </section>
+  } @else {
+  <p class="licenses-state">No licenses found for the selected filters.</p>
+  }
+  } @else {
+  <p class="licenses-state">Loading licenses...</p>
+  }
+</main>

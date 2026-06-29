@@ -7,9 +7,32 @@ services:
       POSTGRES_USER: regulatrack
       POSTGRES_PASSWORD: regulatrack
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - regulatrack_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U regulatrack -d regulatrack"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: regulatrack_backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/regulatrack
+      SPRING_DATASOURCE_USERNAME: regulatrack
+      SPRING_DATASOURCE_PASSWORD: regulatrack
+      SERVER_PORT: 8080
+      APP_SEED_ENABLED: true
+    ports:
+      - "8083:8080"
 
 volumes:
   regulatrack_pgdata:
+
+

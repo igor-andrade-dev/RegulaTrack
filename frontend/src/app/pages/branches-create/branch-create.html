@@ -1,0 +1,103 @@
+<main class="branch-create-page">
+  <header class="branch-create-header">
+    <div>
+      <span class="branch-create-eyebrow">RegulaTrack</span>
+      <h1>New Branch</h1>
+      <p>Create a new operational unit linked to a company.</p>
+    </div>
+
+    <a routerLink="/branches" class="back-link">Back to Branches</a>
+  </header>
+
+  <section class="form-card">
+    @if (errorMessage) {
+    <p class="form-error">{{ errorMessage }}</p>
+    }
+
+    <form (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="companyId">Company</label>
+          <select
+            id="companyId"
+            name="companyId"
+            required
+            [(ngModel)]="form.companyId"
+          >
+            <option [ngValue]="null">Select a company</option>
+
+            @if (companies$ | async; as companies) {
+            @for (company of companies; track company.id) {
+            <option [ngValue]="company.id">{{ company.name }}</option>
+            }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            placeholder="Branch name"
+            [(ngModel)]="form.name"
+          />
+        </div>
+
+        <div class="form-field full">
+          <label for="address">Address</label>
+          <input
+            id="address"
+            name="address"
+            type="text"
+            placeholder="Street, number and complement"
+            [(ngModel)]="form.address"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="city">City</label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            placeholder="City"
+            [(ngModel)]="form.city"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="state">State</label>
+          <input
+            id="state"
+            name="state"
+            type="text"
+            placeholder="State"
+            [(ngModel)]="form.state"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="country">Country</label>
+          <input
+            id="country"
+            name="country"
+            type="text"
+            placeholder="Country"
+            [(ngModel)]="form.country"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create Branch' }}
+        </button>
+
+        <a routerLink="/branches" class="cancel-link">Cancel</a>
+      </div>
+    </form>
+  </section>
+</main>

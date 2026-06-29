@@ -13,6 +13,12 @@ import com.regulatrack.backend.repository.branch.BranchRepository;
 import com.regulatrack.backend.repository.company.CompanyRepository;
 import com.regulatrack.backend.repository.license.LicenseRepository;
 import org.springframework.stereotype.Service;
+import com.regulatrack.backend.dto.common.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
@@ -134,6 +140,74 @@ public class LicenseService {
 
     public List<LicenseResponse> findPending() {
         return findByStatus(LicenseStatus.PENDING);
+    }
+
+    public PageResponse<LicenseResponse> search(
+            Long companyId,
+            Long branchId,
+            LicenseStatus status,
+            String category,
+            String name,
+            int page,
+            int size
+    ) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.ASC, "expiresAt").and(Sort.by("id"))
+        );
+
+        Specification<License> specification = Specification.where(null);
+
+        if (companyId != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("company").get("id"), companyId)
+            );
+        }
+
+        if (branchId != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("branch").get("id"), branchId)
+            );
+        }
+
+        if (status != null) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("status"), status)
+            );
+        }
+
+        if (category != null && !category.isBlank()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(
+                            criteriaBuilder.lower(root.get("category")),
+                            "%" + category.toLowerCase() + "%"
+                    )
+            );
+        }
+
+        if (name != null && !name.isBlank()) {
+            specification = specification.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(
+                            criteriaBuilder.lower(root.get("name")),
+                            "%" + name.toLowerCase() + "%"
+                    )
+            );
+        }
+
+        Page<License> result = licenseRepository.findAll(specification, pageable);
+
+        return new PageResponse<>(
+                result.getContent()
+                        .stream()
+                        .map(this::toResponse)
+                        .toList(),
+                result.getNumber(),
+                result.getSize(),
+                result.getTotalElements(),
+                result.getTotalPages(),
+                result.isLast()
+        );
     }
 
     private List<LicenseResponse> findByStatus(LicenseStatus status) {

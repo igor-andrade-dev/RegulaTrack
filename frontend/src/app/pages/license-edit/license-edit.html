@@ -1,0 +1,120 @@
+<main class="license-edit-page">
+  <header class="license-edit-header">
+    <div>
+      <span class="license-edit-eyebrow">RegulaTrack</span>
+      <h1>Edit License</h1>
+      <p>Update regulatory license information and expiration data.</p>
+    </div>
+  </header>
+
+  <section class="edit-toolbar">
+    <div>
+      <strong>Editing license</strong>
+      <span>Update the fields below and save your changes.</span>
+    </div>
+
+    <a [routerLink]="['/licenses', licenseId]" class="edit-toolbar-action">
+      Back to Details
+    </a>
+  </section>
+
+  @if (loading) {
+  <p class="license-edit-state">Loading license data...</p>
+  }
+
+  @if (errorMessage) {
+  <p class="form-error">{{ errorMessage }}</p>
+  }
+
+  @if (!loading && !errorMessage) {
+  <section class="form-card">
+    <form (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="companyId">Company</label>
+          <select id="companyId" name="companyId" required [(ngModel)]="form.companyId">
+            <option [ngValue]="null">Select a company</option>
+
+            @if (companies$ | async; as companies) {
+            @for (company of companies; track company.id) {
+            <option [ngValue]="company.id">{{ company.name }}</option>
+            }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="branchId">Branch</label>
+          <select id="branchId" name="branchId" required [(ngModel)]="form.branchId">
+            <option [ngValue]="null">Select a branch</option>
+
+            @if (branches$ | async; as branches) {
+            @for (branch of branches; track branch.id) {
+            <option [ngValue]="branch.id">{{ branch.name }}</option>
+            }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="name">License Name</label>
+          <input id="name" name="name" type="text" required [(ngModel)]="form.name" />
+        </div>
+
+        <div class="form-field">
+          <label for="category">Category</label>
+          <input id="category" name="category" type="text" required [(ngModel)]="form.category" />
+        </div>
+
+        <div class="form-field">
+          <label for="licenseNumber">License Number</label>
+          <input id="licenseNumber" name="licenseNumber" type="text" required [(ngModel)]="form.licenseNumber" />
+        </div>
+
+        <div class="form-field">
+          <label for="issuer">Issuer</label>
+          <input id="issuer" name="issuer" type="text" required [(ngModel)]="form.issuer" />
+        </div>
+
+        <div class="form-field">
+          <label for="issuedAt">Issued At</label>
+          <input id="issuedAt" name="issuedAt" type="date" required [(ngModel)]="form.issuedAt" />
+        </div>
+
+        <div class="form-field">
+          <label for="expiresAt">Expires At</label>
+          <input id="expiresAt" name="expiresAt" type="date" [(ngModel)]="form.expiresAt" />
+        </div>
+
+        <div class="form-field">
+          <label for="responsibleName">Responsible Name</label>
+          <input id="responsibleName" name="responsibleName" type="text" required [(ngModel)]="form.responsibleName" />
+        </div>
+
+        <div class="form-field">
+          <label for="responsibleEmail">Responsible Email</label>
+          <input id="responsibleEmail" name="responsibleEmail" type="email" required [(ngModel)]="form.responsibleEmail" />
+        </div>
+
+        <div class="form-field full">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3" [(ngModel)]="form.description"></textarea>
+        </div>
+
+        <div class="form-field full">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" rows="3" [(ngModel)]="form.notes"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="saving">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+
+        <a [routerLink]="['/licenses', licenseId]" class="cancel-link">Cancel</a>
+      </div>
+    </form>
+  </section>
+  }
+</main>

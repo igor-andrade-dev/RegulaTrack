@@ -1,0 +1,180 @@
+<main class="license-create-page">
+  <header class="license-create-header">
+    <div>
+      <span class="license-create-eyebrow">RegulaTrack</span>
+      <h1>New License</h1>
+      <p>Create a new regulatory license linked to a company and branch.</p>
+    </div>
+
+    <a routerLink="/licenses" class="back-link">Back to Licenses</a>
+  </header>
+
+  <section class="form-card">
+    @if (errorMessage) {
+    <p class="form-error">{{ errorMessage }}</p>
+    }
+
+    <form (ngSubmit)="submit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="companyId">Company</label>
+          <select
+            id="companyId"
+            name="companyId"
+            required
+            [(ngModel)]="form.companyId"
+          >
+            <option [ngValue]="null">Select a company</option>
+
+            @if (companies$ | async; as companies) {
+            @for (company of companies; track company.id) {
+            <option [ngValue]="company.id">{{ company.name }}</option>
+            }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="branchId">Branch</label>
+          <select
+            id="branchId"
+            name="branchId"
+            required
+            [(ngModel)]="form.branchId"
+          >
+            <option [ngValue]="null">Select a branch</option>
+
+            @if (branches$ | async; as branches) {
+            @for (branch of branches; track branch.id) {
+            <option [ngValue]="branch.id">{{ branch.name }}</option>
+            }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="name">License Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            placeholder="Example: Environmental License"
+            [(ngModel)]="form.name"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="category">Category</label>
+          <input
+            id="category"
+            name="category"
+            type="text"
+            required
+            placeholder="Example: Ambiental"
+            [(ngModel)]="form.category"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="licenseNumber">License Number</label>
+          <input
+            id="licenseNumber"
+            name="licenseNumber"
+            type="text"
+            required
+            placeholder="Example: ENV-2026-001"
+            [(ngModel)]="form.licenseNumber"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="issuer">Issuer</label>
+          <input
+            id="issuer"
+            name="issuer"
+            type="text"
+            required
+            placeholder="Example: Environmental Agency"
+            [(ngModel)]="form.issuer"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="issuedAt">Issued At</label>
+          <input
+            id="issuedAt"
+            name="issuedAt"
+            type="date"
+            required
+            [(ngModel)]="form.issuedAt"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="expiresAt">Expires At</label>
+          <input
+            id="expiresAt"
+            name="expiresAt"
+            type="date"
+            [(ngModel)]="form.expiresAt"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="responsibleName">Responsible Name</label>
+          <input
+            id="responsibleName"
+            name="responsibleName"
+            type="text"
+            required
+            placeholder="Responsible person"
+            [(ngModel)]="form.responsibleName"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="responsibleEmail">Responsible Email</label>
+          <input
+            id="responsibleEmail"
+            name="responsibleEmail"
+            type="email"
+            required
+            placeholder="responsible@email.com"
+            [(ngModel)]="form.responsibleEmail"
+          />
+        </div>
+
+        <div class="form-field full">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="3"
+            placeholder="License description"
+            [(ngModel)]="form.description"
+          ></textarea>
+        </div>
+
+        <div class="form-field full">
+          <label for="notes">Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="3"
+            placeholder="Additional notes"
+            [(ngModel)]="form.notes"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create License' }}
+        </button>
+
+        <a routerLink="/licenses" class="cancel-link">Cancel</a>
+      </div>
+    </form>
+  </section>
+</main>

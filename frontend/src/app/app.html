@@ -1,0 +1,52 @@
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark">R</span>
+
+      <div>
+        <strong>RegulaTrack</strong>
+        <small>Compliance Platform</small>
+      </div>
+    </a>
+
+    <nav class="sidebar-nav">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        routerLink="/licenses"
+        routerLinkActive="active"
+      >
+        <span>Licenses</span>
+      </a>
+
+      <a
+        routerLink="/companies"
+        routerLinkActive="active"
+      >
+        <span>Companies</span>
+      </a>
+
+      <a
+        routerLink="/branches"
+        routerLinkActive="active"
+      >
+        <span>Branches</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span>RegulaTrack v1</span>
+      <small>Angular 22 + Spring Boot</small>
+    </div>
+  </aside>
+
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,84 @@
+<main class="company-details-page">
+  <header class="company-details-header">
+    <div>
+      <span class="company-details-eyebrow">RegulaTrack</span>
+      <h1>Company Details</h1>
+      <p>Detailed information about the selected company.</p>
+    </div>
+  </header>
+
+  @if (errorMessage) {
+  <p class="company-details-error">{{ errorMessage }}</p>
+  }
+
+  @if (company$ | async; as company) {
+  <section class="details-toolbar">
+    <div>
+      <strong>{{ company.name }}</strong>
+      <span>{{ company.documentNumber }}</span>
+    </div>
+
+    <div class="details-toolbar-actions">
+      <a [routerLink]="['/companies', company.id, 'edit']" class="details-action edit">
+        Edit
+      </a>
+
+      <button
+        type="button"
+        class="details-action delete"
+        (click)="deleteCompany(company.id)"
+        [disabled]="deleting"
+      >
+        {{ deleting ? 'Deleting...' : 'Delete' }}
+      </button>
+
+      <a routerLink="/companies" class="details-action back">
+        Back
+      </a>
+    </div>
+  </section>
+
+  <section class="details-card">
+    <div class="details-title">
+      <div>
+        <h2>{{ company.name }}</h2>
+        <p>{{ company.segment }}</p>
+      </div>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <span>Document Number</span>
+        <strong>{{ company.documentNumber }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Segment</span>
+        <strong>{{ company.segment }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Country</span>
+        <strong>{{ company.country }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>City</span>
+        <strong>{{ company.city }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Created At</span>
+        <strong>{{ company.createdAt }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Updated At</span>
+        <strong>{{ company.updatedAt }}</strong>
+      </div>
+    </div>
+  </section>
+  } @else {
+  <p class="company-details-state">Loading company details...</p>
+  }
+</main>

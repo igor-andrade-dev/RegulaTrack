@@ -1,0 +1,82 @@
+<main class="company-create-page">
+
+  <header class="company-create-header">
+    <div>
+      <span class="company-create-eyebrow">RegulaTrack</span>
+      <h1>New Company</h1>
+      <p>Create a new company in the system.</p>
+    </div>
+
+    <a routerLink="/companies" class="back-link">Back</a>
+  </header>
+
+  <section class="form-card">
+    @if (errorMessage) {
+    <p class="form-error">{{ errorMessage }}</p>
+    }
+
+    <form (ngSubmit)="submit()">
+
+      <div class="form-field">
+        <label>Name</label>
+        <input
+          [(ngModel)]="form.name"
+          name="name"
+          required
+          placeholder="Company name"
+        />
+      </div>
+
+      <div class="form-field">
+        <label>Document Number</label>
+        <input
+          [(ngModel)]="form.documentNumber"
+          name="documentNumber"
+          required
+          placeholder="Document Number"
+        />
+      </div>
+
+      <div class="form-field">
+        <label>Segment</label>
+        <input
+          [(ngModel)]="form.segment"
+          name="segment"
+          required
+          placeholder="Segment"
+        />
+      </div>
+
+      <div class="form-field">
+        <label>Country</label>
+        <input
+          [(ngModel)]="form.country"
+          name="country"
+          required
+          placeholder="Country"
+        />
+      </div>
+
+      <div class="form-field">
+        <label>City</label>
+        <input
+          [(ngModel)]="form.city"
+          name="city"
+          required
+          placeholder="City"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create Company' }}
+        </button>
+
+        <a routerLink="/companies">Cancel</a>
+      </div>
+
+    </form>
+
+  </section>
+
+</main>

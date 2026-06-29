@@ -1,0 +1,50 @@
+<main class="dashboard-page">
+  <header class="dashboard-header">
+    <div>
+      <span class="dashboard-eyebrow">RegulaTrack</span>
+      <h1>Regulatory License Dashboard</h1>
+      <p>Overview of companies, branches and regulatory license statuses.</p>
+    </div>
+  </header>
+
+  @if (summary$ | async; as s) {
+  <section class="dashboard-cards">
+    <article class="dashboard-card blue">
+      <span>Total Companies</span>
+      <strong>{{ s.totalCompanies }}</strong>
+    </article>
+
+    <article class="dashboard-card indigo">
+      <span>Total Branches</span>
+      <strong>{{ s.totalBranches }}</strong>
+    </article>
+
+    <article class="dashboard-card slate">
+      <span>Total Licenses</span>
+      <strong>{{ s.totalLicenses }}</strong>
+    </article>
+
+    <article class="dashboard-card green">
+      <span>Active</span>
+      <strong>{{ s.activeLicenses }}</strong>
+    </article>
+
+    <article class="dashboard-card amber">
+      <span>Expiring Soon</span>
+      <strong>{{ s.expiringSoonLicenses }}</strong>
+    </article>
+
+    <article class="dashboard-card red">
+      <span>Expired</span>
+      <strong>{{ s.expiredLicenses }}</strong>
+    </article>
+
+    <article class="dashboard-card gray">
+      <span>Pending</span>
+      <strong>{{ s.pendingLicenses }}</strong>
+    </article>
+  </section>
+  } @else {
+  <p class="dashboard-state">Loading dashboard data...</p>
+  }
+</main>
