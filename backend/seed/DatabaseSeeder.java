@@ -3,14 +3,18 @@ package com.regulatrack.backend.seed;
 import com.regulatrack.backend.domain.branch.Branch;
 import com.regulatrack.backend.domain.company.Company;
 import com.regulatrack.backend.domain.license.License;
+import com.regulatrack.backend.domain.user.Role;
+import com.regulatrack.backend.domain.user.User;
 import com.regulatrack.backend.repository.branch.BranchRepository;
 import com.regulatrack.backend.repository.company.CompanyRepository;
 import com.regulatrack.backend.repository.license.LicenseRepository;
+import com.regulatrack.backend.repository.user.UserRepository;
 import com.regulatrack.backend.service.license.LicenseStatusService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -23,10 +27,36 @@ public class DatabaseSeeder {
             CompanyRepository companyRepository,
             BranchRepository branchRepository,
             LicenseRepository licenseRepository,
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
             LicenseStatusService licenseStatusService
     ) {
         return args -> {
-            if (companyRepository.count() > 0 || branchRepository.count() > 0 || licenseRepository.count() > 0) {
+
+            // =========================================
+            // 🔐 USER SEED (LOGIN FUNCIONANDO)
+            // =========================================
+            if (userRepository.count() == 0) {
+
+                User admin = new User();
+                admin.setUsername("admin");
+                admin.setPassword(passwordEncoder.encode("123"));
+                admin.setRole(Role.ADMIN);
+
+                userRepository.save(admin);
+
+                User user = new User();
+                user.setUsername("user");
+                user.setPassword(passwordEncoder.encode("123"));
+                user.setRole(Role.USER);
+
+                userRepository.save(user);
+            }
+
+            // =========================================
+            // 🏢 COMPANY SEED
+            // =========================================
+            if (companyRepository.count() > 0) {
                 return;
             }
 
@@ -39,6 +69,9 @@ public class DatabaseSeeder {
 
             Company savedCompany = companyRepository.save(company);
 
+            // =========================================
+            // 🏢 BRANCH SEED
+            // =========================================
             Branch branch = new Branch();
             branch.setCompany(savedCompany);
             branch.setName("Unidade Curitiba");
@@ -49,19 +82,22 @@ public class DatabaseSeeder {
 
             Branch savedBranch = branchRepository.save(branch);
 
+            // =========================================
+            // 📄 LICENSES
+            // =========================================
             createLicense(
                     licenseRepository,
                     licenseStatusService,
                     savedCompany,
                     savedBranch,
                     "Licenca Ambiental Vencida",
-                    "Licenca usada para demonstrar status automatico EXPIRED",
+                    "Licenca EXPIRED",
                     "Ambiental",
                     "ENV-2024-001",
                     "Orgao Ambiental",
                     LocalDate.of(2024, 1, 1),
                     LocalDate.of(2024, 12, 31),
-                    "Status calculado automaticamente pelo vencimento"
+                    "Status calculado automaticamente"
             );
 
             createLicense(
@@ -70,13 +106,13 @@ public class DatabaseSeeder {
                     savedCompany,
                     savedBranch,
                     "Licenca Sanitaria Ativa",
-                    "Licenca usada para demonstrar status automatico ACTIVE",
+                    "Licenca ACTIVE",
                     "Sanitaria",
                     "SAN-2027-001",
                     "Vigilancia Sanitaria",
                     LocalDate.of(2026, 1, 1),
                     LocalDate.of(2027, 12, 31),
-                    "Licenca valida por mais de 30 dias"
+                    "Valida"
             );
 
             createLicense(
@@ -85,13 +121,13 @@ public class DatabaseSeeder {
                     savedCompany,
                     savedBranch,
                     "Licenca Proxima do Vencimento",
-                    "Licenca usada para demonstrar status automatico EXPIRING_SOON",
+                    "EXPIRING_SOON",
                     "Operacional",
                     "OPR-2026-001",
                     "Orgao Regulador",
                     LocalDate.of(2026, 1, 1),
                     LocalDate.now().plusDays(15),
-                    "Vencimento dentro dos proximos 30 dias"
+                    "Vence em breve"
             );
 
             createLicense(
@@ -100,17 +136,20 @@ public class DatabaseSeeder {
                     savedCompany,
                     savedBranch,
                     "Licenca Pendente",
-                    "Licenca sem data de vencimento definida",
+                    "PENDING",
                     "Documental",
                     "DOC-0001",
                     "Orgao Regulador",
                     LocalDate.of(2026, 1, 1),
                     null,
-                    "Sem expiresAt, o status deve ser PENDING"
+                    "Sem vencimento"
             );
         };
     }
 
+    // =========================================
+    // 🔧 HELPER
+    // =========================================
     private void createLicense(
             LicenseRepository licenseRepository,
             LicenseStatusService licenseStatusService,
