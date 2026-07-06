@@ -1,3 +1,9 @@
+package com.regulatrack.backend.auth;
+
+import com.regulatrack.backend.auth.dto.LoginRequest;
+import com.regulatrack.backend.auth.dto.LoginResponse;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
