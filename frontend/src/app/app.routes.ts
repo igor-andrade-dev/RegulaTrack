@@ -12,58 +12,88 @@ import { CompanyEdit } from './pages/companies-edit/company-edit';
 import { BranchCreate } from './pages/branches-create/branch-create';
 import { BranchDetails } from './pages/branches-details/branch-details';
 import { BranchEdit } from './pages/branches-edit/branch-edit';
+import { Login } from './features/auth/login/login';
+import { Register } from './features/auth/register/register';
 
 export const routes: Routes = [
   {
     path: '',
-    component: Dashboard
+    redirectTo: 'login',
+    pathMatch: 'full',
   },
+
+  {
+    path: 'login',
+    component: Login,
+  },
+
+  {
+    path: 'register',
+    component: Register,
+  },
+
+  {
+    path: 'dashboard',
+    component: Dashboard,
+  },
+
   {
     path: 'licenses',
-    component: Licenses
+    component: Licenses,
   },
+
   {
     path: 'licenses/new',
-    component: LicenseCreate
+    component: LicenseCreate,
   },
+
   {
     path: 'licenses/:id/edit',
-    component: LicenseEdit
+    component: LicenseEdit,
   },
+
   {
     path: 'licenses/:id',
-    component: LicenseDetails
+    component: LicenseDetails,
   },
+
   {
     path: 'companies',
-    component: Companies
+    component: Companies,
   },
+
   {
     path: 'companies/new',
-    component: CompanyCreate
+    component: CompanyCreate,
   },
+
   {
     path: 'companies/:id/edit',
-    component: CompanyEdit
+    component: CompanyEdit,
   },
+
   {
     path: 'companies/:id',
-    component: CompanyDetails
+    component: CompanyDetails,
   },
+
   {
     path: 'branches',
-    component: Branches
+    component: Branches,
   },
+
   {
     path: 'branches/new',
-    component: BranchCreate
+    component: BranchCreate,
   },
+
   {
     path: 'branches/:id/edit',
-    component: BranchEdit
+    component: BranchEdit,
   },
+
   {
     path: 'branches/:id',
-    component: BranchDetails
-  }
+    component: BranchDetails,
+  },
 ];

@@ -2,6 +2,9 @@ package com.regulatrack.backend.auth;
 
 import com.regulatrack.backend.auth.dto.LoginRequest;
 import com.regulatrack.backend.auth.dto.LoginResponse;
+import com.regulatrack.backend.auth.dto.RegisterRequest;
+import com.regulatrack.backend.auth.dto.RegisterResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,5 +26,12 @@ public class AuthController {
         );
 
         return new LoginResponse(token);
+    }
+
+    @PostMapping("/register")
+    public RegisterResponse register(
+            @RequestBody @Valid RegisterRequest request
+    ) {
+        return authService.register(request);
     }
 }

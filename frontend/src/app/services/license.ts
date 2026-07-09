@@ -68,7 +68,7 @@ export interface UpdateLicenseRequest {
   providedIn: 'root'
 })
 export class LicenseService {
-  private readonly apiUrl = 'http://localhost:8083/api/licenses';
+  private readonly apiUrl = 'http://localhost:8080/api/licenses';
 
 
   constructor(private readonly http: HttpClient) {}
