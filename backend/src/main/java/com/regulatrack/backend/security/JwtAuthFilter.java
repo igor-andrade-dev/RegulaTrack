@@ -21,6 +21,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
+        // 🔥 ignora auth e swagger
         if (path.startsWith("/auth") || path.contains("swagger")) {
             filterChain.doFilter(request, response);
             return;
@@ -42,7 +43,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     new UsernamePasswordAuthenticationToken(
                             username,
                             null,
-                            Collections.emptyList()
+                            Collections.emptyList() // depois colocamos roles aqui
                     );
 
             SecurityContextHolder.getContext().setAuthentication(auth);
