@@ -29,7 +29,7 @@ export interface UpdateBranchRequest extends CreateBranchRequest {}
   providedIn: 'root'
 })
 export class BranchService {
-  private readonly apiUrl = 'http://localhost:8080/api/branches';
+  private readonly apiUrl = 'http://localhost:8083/api/branches';
 
   constructor(private readonly http: HttpClient) {}
 

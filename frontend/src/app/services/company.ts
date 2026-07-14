@@ -26,7 +26,7 @@ export interface UpdateCompanyRequest extends CreateCompanyRequest {}
   providedIn: 'root'
 })
 export class CompanyService {
-  private readonly apiUrl = 'http://localhost:8080/api/companies';
+  private readonly apiUrl = 'http://localhost:8083/api/companies';
 
   constructor(private readonly http: HttpClient) {}
 
