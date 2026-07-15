@@ -7,7 +7,7 @@ import { BranchService } from '../../services/branch';
   selector: 'app-branches',
   imports: [AsyncPipe, RouterLink],
   templateUrl: './branches.html',
-  styleUrl: './branches.scss'
+  styleUrls: ['./branches.scss'],
 })
 export class Branches {
   private readonly branchService = inject(BranchService);
@@ -18,7 +18,7 @@ export class Branches {
 
   deleteBranch(id: number): void {
     const confirmed = window.confirm(
-      'Are you sure you want to delete this branch? This action cannot be undone.'
+      'Are you sure you want to delete this branch? This action cannot be undone.',
     );
 
     if (!confirmed) {
@@ -37,7 +37,7 @@ export class Branches {
         console.error('Delete branch error:', error);
         this.deletingId = null;
         this.errorMessage = 'Could not delete branch.';
-      }
+      },
     });
   }
 }

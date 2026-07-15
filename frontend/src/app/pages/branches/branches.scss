@@ -87,6 +87,7 @@ tr:last-child td {
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 }
 
+/* ERROR */
 .branches-error {
   background: #fee2e2;
   color: #991b1b;
@@ -96,14 +97,109 @@ tr:last-child td {
   margin: 0 0 18px;
 }
 
+/* TOOLBAR */
+.branches-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* NEW BUTTON */
 .new-branch-link {
-  background: #ffffff;
-  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #111827;
+  color: #ffffff;
   text-decoration: none;
-  font-weight: 800;
-  padding: 10px 14px;
+  font-weight: 900;
+  padding: 11px 16px;
   border-radius: 999px;
   white-space: nowrap;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+}
+
+.new-branch-link:hover {
+  transform: translateY(-1px);
+  background: #1f2937;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.24);
+}
+
+.new-branch-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* TABLE ACTIONS */
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+}
+
+.action-button.view {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.action-button.edit {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.action-button.delete {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.action-button.delete:hover {
+  background: #fecaca;
+}
+
+.action-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* FILTERS (SE USAR NO FUTURO) */
+.branches-filters {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e5e7eb;
 }
 
 @media (max-width: 700px) {
@@ -121,33 +217,16 @@ tr:last-child td {
   }
 }
 
-td.actions {
+.toolbar {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
   align-items: center;
-  white-space: normal;
-  min-width: 160px;
+
+  margin: 20px 0;
+  gap: 12px;
 }
 
-td.actions a,
-td.actions button {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: #111827;
-  color: #ffffff;
-  font-size: 12px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
-
-td.actions button:hover,
-td.actions a:hover {
-  background: #0f172a;
-}
-
-td.actions button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+.toolbar .input {
+  flex: 1;
+  max-width: 400px;
 }

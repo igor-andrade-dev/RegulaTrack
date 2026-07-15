@@ -1,67 +1,115 @@
-<main class="branches-page">
-  <header class="branches-header">
+<main class="page">
+
+  <!-- HEADER -->
+  <header class="page-header">
     <div>
       <span class="branches-eyebrow">RegulaTrack</span>
       <h1>Branches</h1>
       <p>Operational units linked to registered companies.</p>
     </div>
-
-    <a routerLink="/branches/new" class="new-branch-link">New Branch</a>
   </header>
 
+  <!-- ACTION BAR (BOTÃO + FILTRO) -->
+  <div class="toolbar">
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      class="input"
+      placeholder="Search branches..."
+    />
+
+    <!-- NEW BUTTON -->
+    <a routerLink="/branches/new" class="btn btn-primary">
+      + New Branch
+    </a>
+
+  </div>
+
+  <!-- ERROR -->
   @if (errorMessage) {
-  <p class="branches-error">{{ errorMessage }}</p>
+    <p class="branches-error">{{ errorMessage }}</p>
   }
 
+  <!-- DATA -->
   @if (branches$ | async; as branches) {
-  @if (branches.length > 0) {
-  <section class="branches-table-card">
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Company</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Country</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
 
-      <tbody>
-      @for (branch of branches; track branch.id) {
-      <tr>
-        <td>{{ branch.name }}</td>
-        <td>{{ branch.companyName }}</td>
-        <td>{{ branch.address }}</td>
-        <td>{{ branch.city }}</td>
-        <td>{{ branch.state }}</td>
-        <td>{{ branch.country }}</td>
-        <td>{{ branch.createdAt }}</td>
-        <td class="actions">
-          <a [routerLink]="['/branches', branch.id]">View</a>
+    @if (branches.length > 0) {
 
-          <a [routerLink]="['/branches', branch.id, 'edit']">Edit</a>
+      <section class="card table-card">
 
-          <button
-            type="button"
-            (click)="deleteBranch(branch.id)"
-            [disabled]="deletingId === branch.id"
-          >
-            {{ deletingId === branch.id ? 'Deleting...' : 'Delete' }}
-          </button>
-        </td>
-      </tr>
-      }
-      </tbody>
-    </table>
-  </section>
+        <table class="table">
+
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            @for (branch of branches; track branch.id) {
+              <tr>
+
+                <td>{{ branch.name }}</td>
+                <td>{{ branch.companyName }}</td>
+                <td>{{ branch.address }}</td>
+                <td>{{ branch.city }}</td>
+                <td>{{ branch.state }}</td>
+                <td>{{ branch.country }}</td>
+                <td>{{ branch.createdAt }}</td>
+
+                <td>
+                  <div class="table-actions">
+
+                    <a class="action-button view"
+                       [routerLink]="['/branches', branch.id]">
+                      👁
+                    </a>
+
+                    <a class="action-button edit"
+                       [routerLink]="['/branches', branch.id, 'edit']">
+                      ✎
+                    </a>
+
+                    <button
+                      class="action-button delete"
+                      (click)="deleteBranch(branch.id)"
+                      [disabled]="deletingId === branch.id">
+                      🗑
+                    </button>
+
+                  </div>
+                </td>
+
+              </tr>
+            }
+          </tbody>
+
+        </table>
+
+      </section>
+
+    } @else {
+
+      <div class="card">
+        <p>No branches found.</p>
+      </div>
+
+    }
+
   } @else {
-  <p class="branches-state">No branches found.</p>
+
+    <div class="card">
+      <p>Loading branches...</p>
+    </div>
+
   }
-  } @else {
-  <p class="branches-state">Loading branches...</p>
-  }
+
 </main>
