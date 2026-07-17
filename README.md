@@ -9,6 +9,7 @@ The system helps organizations manage companies, branches, and regulatory licens
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - Angular
 - TypeScript
 - SCSS (Design System)
@@ -16,6 +17,7 @@ The system helps organizations manage companies, branches, and regulatory licens
 - Angular Router
 
 ### Backend
+
 - Java 21
 - Spring Boot 3+
 - Spring Security (JWT Authentication)
@@ -24,6 +26,7 @@ The system helps organizations manage companies, branches, and regulatory licens
 - Flyway Migrations
 
 ### Infrastructure
+
 - Docker
 - REST API architecture
 - Stateless authentication (JWT)
@@ -34,19 +37,23 @@ The system helps organizations manage companies, branches, and regulatory licens
 ## 🎯 Core Features
 
 ### 🔐 Authentication
+
 - JWT-based login system
 - Secure API access
 - Route protection (Angular guards)
 
 ### 🏢 Companies Management
+
 - Create, update, delete companies
 - Company details view
 
 ### 🏬 Branches Management
+
 - Manage operational units (branches)
 - Link branches to companies
 
 ### 📄 Regulatory Licenses
+
 - Full CRUD system
 - License lifecycle tracking:
   - Active
@@ -55,6 +62,7 @@ The system helps organizations manage companies, branches, and regulatory licens
   - Pending
 
 ### 📊 Dashboard
+
 - System overview
 - Aggregated metrics (licenses, companies, branches)
 
