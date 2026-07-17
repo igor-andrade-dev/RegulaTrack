@@ -97,6 +97,7 @@ docker-compose up
 Backend runs at:
 
 http://localhost:8080
+
 Frontend
 npm install
 ng serve
