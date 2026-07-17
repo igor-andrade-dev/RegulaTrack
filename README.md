@@ -102,6 +102,3 @@ MVP completed with core SaaS features.
 
 Igor Andrade
 
-
-👉 README com screenshots + badges + deploy link + GIF demo  
-👉 ou “versão inglês otimizada para vagas internacionais”
