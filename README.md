@@ -103,19 +103,5 @@ MVP completed with core SaaS features.
 Igor Andrade
 
 
----
-
-# 🚀 pronto
-
-✔ zero IDE  
-✔ copy/paste direto no GitHub  
-✔ já formatado  
-✔ profissional  
-✔ estilo SaaS real  
-
----
-
-Se quiser próximo nível (isso aqui vira projeto de recrutador forte):
-
 👉 README com screenshots + badges + deploy link + GIF demo  
 👉 ou “versão inglês otimizada para vagas internacionais”
