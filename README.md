@@ -89,6 +89,7 @@ Response Example
 {
   "token": "JWT_TOKEN"
 }
+
 ⚙️ How to Run
 Backend
 docker-compose up
@@ -103,6 +104,7 @@ ng serve
 Frontend runs at:
 
 http://localhost:4200
+
 🧱 Architecture
 Angular Frontend
       ↓
@@ -111,6 +113,7 @@ JWT Authentication
 Spring Boot REST API
       ↓
 PostgreSQL Database
+
 📌 Project Status
 
 ✔ MVP completed
@@ -118,6 +121,7 @@ PostgreSQL Database
 ⚠ Advanced filtering & pagination planned
 
 🧠 Key Engineering Concepts
+
 Clean layered architecture
 RESTful API design
 Stateless authentication (JWT)
@@ -125,6 +129,7 @@ Reactive frontend architecture (RxJS)
 Component-based UI design
 Reusable SCSS design system
 Dockerized environment
+
 👨‍💻 Author
 
 Developed by Igor Andrade
