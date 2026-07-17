@@ -1,104 +1,142 @@
 # 📊 RegulaTrack
 
-Modern SaaS system for regulatory license management built with **Angular + Spring Boot + PostgreSQL**.
+A modern **SaaS platform for regulatory license management**, built with **Angular + Spring Boot + PostgreSQL**.
+
+The system helps organizations manage companies, branches, and regulatory licenses in a centralized and scalable way.
 
 ---
 
-## 🚀 Stack
+## 🚀 Tech Stack
 
-**Frontend**
+### Frontend
 - Angular
 - TypeScript
-- SCSS
+- SCSS (Design System)
+- RxJS
+- Angular Router
 
-**Backend**
+### Backend
 - Java 21
-- Spring Boot
-- Spring Security (JWT)
-- JPA / Hibernate
+- Spring Boot 3+
+- Spring Security (JWT Authentication)
+- Hibernate / JPA
 - PostgreSQL
+- Flyway Migrations
 
-**Infra**
+### Infrastructure
 - Docker
-- REST API
-- JWT Authentication
+- REST API architecture
+- Stateless authentication (JWT)
+- CORS configuration
 
 ---
 
-## 🎯 Features
+## 🎯 Core Features
 
-- JWT Login
-- Dashboard overview
-- Companies CRUD
-- Branches CRUD
-- Licenses CRUD
-- License status tracking:
+### 🔐 Authentication
+- JWT-based login system
+- Secure API access
+- Route protection (Angular guards)
+
+### 🏢 Companies Management
+- Create, update, delete companies
+- Company details view
+
+### 🏬 Branches Management
+- Manage operational units (branches)
+- Link branches to companies
+
+### 📄 Regulatory Licenses
+- Full CRUD system
+- License lifecycle tracking:
   - Active
   - Expiring Soon
   - Expired
   - Pending
 
----
-
-## 🎨 UI
-
-- SaaS layout (Stripe-inspired)
-- Sidebar navigation
-- Card-based design
-- Tables with filters
-- Action buttons (view/edit/delete)
-- Responsive layout
+### 📊 Dashboard
+- System overview
+- Aggregated metrics (licenses, companies, branches)
 
 ---
 
-## 🔐 Auth
+## 🎨 UI / UX Design
 
-Login endpoint:
+- Modern SaaS layout inspired by Stripe/Linear
+- Responsive interface
+- Sidebar navigation system
+- Reusable SCSS design system
+- Card-based layout structure
+- Data tables with actions (View / Edit / Delete)
+- Clean and minimal visual hierarchy
 
+---
+
+## 🔐 Authentication Flow
+
+### Login Endpoint
 
 POST /auth/login
 
 
-Example:
-
+### Request Example
 ```json
 {
   "username": "admin",
   "password": "123"
 }
-
-Response:
-
+Response Example
 {
   "token": "JWT_TOKEN"
 }
-⚙️ Run Project
+⚙️ How to Run
 Backend
 docker-compose up
 
-Runs at:
+Backend runs at:
 
 http://localhost:8080
 Frontend
 npm install
 ng serve
 
-Runs at:
+Frontend runs at:
 
 http://localhost:4200
-📦 Architecture
+🧱 Architecture
 Angular Frontend
       ↓
-JWT Auth
+JWT Authentication
       ↓
-Spring Boot API
+Spring Boot REST API
       ↓
-PostgreSQL
-📌 Status
+PostgreSQL Database
+📌 Project Status
 
-MVP completed with core SaaS features.
+✔ MVP completed
+⚠ UI refinements in progress
+⚠ Advanced filtering & pagination planned
 
+🧠 Key Engineering Concepts
+Clean layered architecture
+RESTful API design
+Stateless authentication (JWT)
+Reactive frontend architecture (RxJS)
+Component-based UI design
+Reusable SCSS design system
+Dockerized environment
 👨‍💻 Author
 
-Igor Andrade
+Developed by Igor Andrade
 
+Full Stack Developer focused on SaaS systems, scalable architectures, and modern web applications.
+
+📌 Goal of This Project
+
+This project simulates a real-world SaaS platform for regulatory compliance management, focusing on:
+
+Scalability
+Maintainability
+Security
+Clean UI/UX
+Production-like architecture
