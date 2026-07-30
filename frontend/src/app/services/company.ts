@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export interface Company {
@@ -22,16 +22,27 @@ export interface CreateCompanyRequest {
 
 export interface UpdateCompanyRequest extends CreateCompanyRequest {}
 
+export interface CompanySearchParams {
+  name?: string;
+}
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompanyService {
   private readonly apiUrl = 'http://localhost:8083/api/companies';
 
   constructor(private readonly http: HttpClient) {}
 
-  findAll() {
-    return this.http.get<Company[]>(this.apiUrl);
+  // 🔹 LISTA COM FILTRO (PRONTO PRA SEARCH)
+  findAll(params?: CompanySearchParams) {
+    let httpParams = new HttpParams();
+
+    if (params?.name) {
+      httpParams = httpParams.set('name', params.name);
+    }
+
+    return this.http.get<Company[]>(this.apiUrl, { params: httpParams });
   }
 
   findById(id: number) {

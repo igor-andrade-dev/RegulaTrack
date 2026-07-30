@@ -3,35 +3,47 @@
   <!-- HEADER -->
   <header class="page-header">
     <div>
-      <span class="branches-eyebrow">RegulaTrack</span>
+      <span class="eyebrow">RegulaTrack</span>
       <h1>Branches</h1>
       <p>Operational units linked to registered companies.</p>
     </div>
   </header>
 
-  <!-- ACTION BAR (BOTÃO + FILTRO) -->
-  <div class="toolbar">
-
-    <!-- SEARCH -->
-    <input
-      type="text"
-      class="input"
-      placeholder="Search branches..."
-    />
-
-    <!-- NEW BUTTON -->
-    <a routerLink="/branches/new" class="btn btn-primary">
-      + New Branch
+  <!-- TOOLBAR -->
+  <section class="branches-toolbar">
+    <a routerLink="/branches/new" class="new-branch-link">
+      <span class="new-branch-icon">+</span>
+      <span>New Branch</span>
     </a>
+  </section>
 
-  </div>
+  <!-- FILTERS -->
+  <section class="branches-filters card">
+
+    <div class="filter-field">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="Search by branch name"
+        [(ngModel)]="filters.name"
+      />
+    </div>
+
+    <div class="filter-actions">
+      <button type="button" (click)="search()">Apply</button>
+      <button type="button" class="secondary" (click)="clearFilters()">Clear</button>
+    </div>
+
+  </section>
 
   <!-- ERROR -->
   @if (errorMessage) {
     <p class="branches-error">{{ errorMessage }}</p>
   }
 
-  <!-- DATA -->
+  <!-- TABLE -->
   @if (branches$ | async; as branches) {
 
     @if (branches.length > 0) {
@@ -68,13 +80,20 @@
                 <td>
                   <div class="table-actions">
 
-                    <a class="action-button view"
-                       [routerLink]="['/branches', branch.id]">
+                    <a
+                      class="action-button view"
+                      [routerLink]="['/branches', branch.id]"
+                      title="View branch"
+                      aria-label="View branch"
+                    >
                       👁
                     </a>
-
-                    <a class="action-button edit"
-                       [routerLink]="['/branches', branch.id, 'edit']">
+                    <a
+                      class="action-button edit"
+                      [routerLink]="['/branches', branch.id, 'edit']"
+                      title="Edit branch"
+                      aria-label="Edit branch"
+                    >
                       ✎
                     </a>
 

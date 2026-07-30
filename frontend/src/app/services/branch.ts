@@ -25,20 +25,36 @@ export interface CreateBranchRequest {
 
 export interface UpdateBranchRequest extends CreateBranchRequest {}
 
+export interface BranchSearchParams {
+  companyId?: number;
+  name?: string;
+  city?: string;
+}
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BranchService {
   private readonly apiUrl = 'http://localhost:8083/api/branches';
 
   constructor(private readonly http: HttpClient) {}
 
-  findAll(companyId?: number) {
-    const options = companyId != null
-      ? { params: new HttpParams().set('companyId', companyId) }
-      : {};
+  findAll(params?: BranchSearchParams) {
+    let httpParams = new HttpParams();
 
-    return this.http.get<Branch[]>(this.apiUrl, options);
+    if (params?.companyId != null) {
+      httpParams = httpParams.set('companyId', params.companyId);
+    }
+
+    if (params?.name) {
+      httpParams = httpParams.set('name', params.name);
+    }
+
+    if (params?.city) {
+      httpParams = httpParams.set('city', params.city);
+    }
+
+    return this.http.get<Branch[]>(this.apiUrl, { params: httpParams });
   }
 
   findById(id: number) {

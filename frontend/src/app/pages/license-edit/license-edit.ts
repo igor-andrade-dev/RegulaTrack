@@ -6,6 +6,7 @@ import { BranchService } from '../../services/branch';
 import { CompanyService } from '../../services/company';
 import { LicenseService, UpdateLicenseRequest } from '../../services/license';
 
+
 @Component({
   selector: 'app-license-edit',
   imports: [AsyncPipe, FormsModule, RouterLink],

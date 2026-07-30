@@ -1,66 +1,130 @@
 <main class="companies-page">
+
+  <!-- HEADER -->
   <header class="companies-header">
     <div>
       <span class="companies-eyebrow">RegulaTrack</span>
       <h1>Companies</h1>
       <p>Companies registered in the regulatory license management system.</p>
     </div>
-
-    <a routerLink="/companies/new" class="new-company-link">New Company</a>
   </header>
 
-  @if (errorMessage) {
-  <p class="companies-error">{{ errorMessage }}</p>
-  }
-
-  @if (companies$ | async; as companies) {
-  @if (companies.length > 0) {
-  <section class="companies-table-card">
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Document Number</th>
-        <th>Segment</th>
-        <th>Country</th>
-        <th>City</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      @for (company of companies; track company.id) {
-      <tr>
-        <td>{{ company.name }}</td>
-        <td>{{ company.documentNumber }}</td>
-        <td>{{ company.segment }}</td>
-        <td>{{ company.country }}</td>
-        <td>{{ company.city }}</td>
-        <td>{{ company.createdAt }}</td>
-
-        <td class="actions">
-          <a [routerLink]="['/companies', company.id]">View</a>
-
-          <a [routerLink]="['/companies', company.id, 'edit']">Edit</a>
-
-          <button
-            type="button"
-            (click)="deleteCompany(company.id)"
-            [disabled]="deletingId === company.id"
-          >
-            {{ deletingId === company.id ? 'Deleting...' : 'Delete' }}
-          </button>
-        </td>
-      </tr>
-      }
-      </tbody>
-    </table>
+  <!-- TOOLBAR -->
+  <section class="companies-toolbar">
+    <a routerLink="/companies/new" class="new-company-link">
+      <span class="new-company-icon">+</span>
+      <span>New Company</span>
+    </a>
   </section>
-  } @else {
-  <p class="companies-state">No companies found.</p>
+
+  <!-- FILTERS (SIMPLIFICADO E CORRETO) -->
+  <section class="companies-filters">
+
+    <div class="filter-field">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="Search by company name"
+        [(ngModel)]="filters.name"
+      />
+    </div>
+
+    <div class="filter-actions">
+      <button type="button" (click)="search()">Apply</button>
+      <button type="button" class="secondary" (click)="clearFilters()">Clear</button>
+    </div>
+
+  </section>
+
+
+  <!-- RESULT INFO -->
+  <div class="companies-result-info">
+    Showing {{ (companies$ | async)?.length || 0 }} companies
+  </div>
+
+  <!-- ERROR -->
+  @if (errorMessage) {
+    <p class="companies-error">{{ errorMessage }}</p>
   }
+
+  <!-- DATA -->
+  @if (companies$ | async; as companies) {
+
+    @if (companies.length > 0) {
+
+      <section class="companies-table-card">
+
+        <table>
+
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Document Number</th>
+            <th>Segment</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            @for (company of companies; track company.id) {
+              <tr>
+
+                <td>{{ company.name }}</td>
+                <td>{{ company.documentNumber }}</td>
+                <td>{{ company.segment }}</td>
+                <td>{{ company.country }}</td>
+                <td>{{ company.city }}</td>
+                <td>{{ company.createdAt }}</td>
+
+                <td>
+                  <div class="table-actions">
+
+                    <a
+                      class="action-button view"
+                      [routerLink]="['/companies', company.id]"
+                      title="View license"
+                      aria-label="View license"
+                    >
+                      👁
+                    </a>
+
+                    <a
+                      class="action-button edit"
+                      [routerLink]="['/companies', company.id, 'edit']"
+                      title="Edit license"
+                      aria-label="Edit license"
+                    >
+                      ✎
+                    </a>
+
+                    <button class="action-button delete"
+                            (click)="deleteCompany(company.id)"
+                            [disabled]="deletingId === company.id">
+                      🗑
+                    </button>
+
+                  </div>
+                </td>
+
+              </tr>
+            }
+          </tbody>
+
+        </table>
+
+      </section>
+
+    } @else {
+      <p class="companies-state">No companies found.</p>
+    }
+
   } @else {
-  <p class="companies-state">Loading companies...</p>
+    <p class="companies-state">Loading companies...</p>
   }
+
 </main>
