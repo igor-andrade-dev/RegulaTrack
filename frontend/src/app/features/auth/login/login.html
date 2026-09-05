@@ -1,0 +1,490 @@
+<main class="login-page">
+
+  <!-- BRAND / PRODUCT PANEL -->
+  <section class="login-product">
+
+    <div class="product-content">
+
+      <div class="product-brand">
+
+        <span class="product-mark">
+          R
+        </span>
+
+        <div class="product-brand-text">
+
+          <strong>
+            RegulaTrack
+          </strong>
+
+          <span>
+            Compliance Platform
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="product-message">
+
+        <span class="product-eyebrow">
+          REGULATORY COMPLIANCE
+        </span>
+
+        <h1>
+          Keep your regulatory operations under control.
+        </h1>
+
+        <p>
+          Manage licenses, companies, branches and compliance access
+          from one secure platform.
+        </p>
+
+
+        <div class="product-features">
+
+          <div class="product-feature">
+
+            <span class="feature-icon">
+              ✓
+            </span>
+
+            <div>
+              <strong>
+                License Management
+              </strong>
+
+              <span>
+                Track regulatory licenses and expiration dates.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="product-feature">
+
+            <span class="feature-icon">
+              ✓
+            </span>
+
+            <div>
+              <strong>
+                Centralized Compliance
+              </strong>
+
+              <span>
+                Keep companies and branches organized in one place.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="product-feature">
+
+            <span class="feature-icon">
+              ✓
+            </span>
+
+            <div>
+              <strong>
+                Access Control
+              </strong>
+
+              <span>
+                Control what each user can view and manage.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="product-footer">
+
+        <span>
+          Secure regulatory license management
+        </span>
+
+        <span>
+          RegulaTrack v1.0
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LOGIN PANEL -->
+  <section class="login-panel">
+
+    <div class="login-card">
+
+      <div class="login-mobile-brand">
+
+        <span class="login-mark">
+          R
+        </span>
+
+        <div>
+
+          <strong>
+            RegulaTrack
+          </strong>
+
+          <span>
+            Compliance Platform
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="login-header">
+
+        <span class="login-eyebrow">
+          WELCOME BACK
+        </span>
+
+        <h2>
+          Sign in to your account
+        </h2>
+
+        <p>
+          Enter your credentials to access your workspace.
+        </p>
+
+      </div>
+
+
+      <form
+        class="login-form"
+        (ngSubmit)="login()"
+        novalidate
+      >
+
+        <!-- USERNAME -->
+
+        <div class="form-field">
+
+          <label for="username">
+            Username
+          </label>
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M20 21a8 8 0 0 0-16 0"
+                />
+
+                <circle
+                  cx="12"
+                  cy="7"
+                  r="4"
+                />
+              </svg>
+
+            </span>
+
+            <input
+              id="username"
+              name="username"
+              type="text"
+              [(ngModel)]="username"
+              autocomplete="username"
+              placeholder="Enter your username"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-field">
+
+          <div class="password-label-row">
+
+            <label for="password">
+              Password
+            </label>
+
+            <a
+              routerLink="/forgot-password"
+              class="forgot-link"
+            >
+              Forgot password?
+            </a>
+
+          </div>
+
+
+          <div class="input-wrapper">
+
+            <span class="input-icon">
+
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect
+                  x="3"
+                  y="11"
+                  width="18"
+                  height="10"
+                  rx="2"
+                />
+
+                <path
+                  d="M7 11V7a5 5 0 0 1 10 0v4"
+                />
+              </svg>
+
+            </span>
+
+
+            <input
+              id="password"
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            />
+
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+              [attr.aria-label]="
+                showPassword
+                  ? 'Hide password'
+                  : 'Show password'
+              "
+            >
+
+              @if (showPassword) {
+
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 3l18 18"
+                  />
+
+                  <path
+                    d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+                  />
+
+                  <path
+                    d="M9.9 5.1A10.8 10.8 0 0 1 12 5c5 0 9 4 10 7a11.6 11.6 0 0 1-3 4.5"
+                  />
+
+                  <path
+                    d="M6.6 6.6C4.7 8 3.4 9.8 2 12c1.1 2.1 3.8 7 10 7 1.5 0 2.8-.3 4-.8"
+                  />
+                </svg>
+
+              } @else {
+
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+                  />
+
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  />
+                </svg>
+
+              }
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ERROR -->
+
+        @if (errorMessage) {
+
+          <div
+            class="login-error"
+            role="alert"
+          >
+
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+              />
+
+              <path
+                d="M12 8v4"
+              />
+
+              <path
+                d="M12 16h.01"
+              />
+            </svg>
+
+            <span>
+              {{ errorMessage }}
+            </span>
+
+          </div>
+
+        }
+
+
+        <!-- SUBMIT -->
+
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="loading"
+        >
+
+          @if (loading) {
+
+            <span class="button-spinner"></span>
+
+            <span>
+              Signing in...
+            </span>
+
+          } @else {
+
+            <span>
+              Sign In
+            </span>
+
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M5 12h14"
+              />
+
+              <path
+                d="m13 6 6 6-6 6"
+              />
+            </svg>
+
+          }
+
+        </button>
+
+      </form>
+
+
+      <div class="login-security">
+
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect
+            x="4"
+            y="10"
+            width="16"
+            height="11"
+            rx="2"
+          />
+
+          <path
+            d="M8 10V7a4 4 0 0 1 8 0v3"
+          />
+        </svg>
+
+        <span>
+          Secure access to your compliance workspace
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>

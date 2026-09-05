@@ -1,0 +1,54 @@
+<main class="resource-page form-page">
+  <header class="resource-header">
+    <div>
+      <span class="resource-eyebrow">ADMINISTRATION</span>
+      <h1>Create User</h1>
+      <p>Create a user account and define module access.</p>
+    </div>
+    <a routerLink="/users" class="secondary-link">Back to Users</a>
+  </header>
+
+  @if (errorMessage) { <div class="alert alert-error">{{ errorMessage }}</div> }
+
+  <section class="resource-card form-card">
+    <form (ngSubmit)="submit()" novalidate>
+      <div class="form-section">
+        <div class="section-header"><h2>User Information</h2><p>Account credentials and role.</p></div>
+        <div class="form-grid">
+          <label class="form-field"><span>Username</span><input name="username" [(ngModel)]="form.username" required autocomplete="username" placeholder="Enter username" /></label><label class="form-field"><span>Email</span><input name="email" type="email" [(ngModel)]="form.email" required autocomplete="email" placeholder="name@company.com" /></label>
+          <label class="form-field"><span>Password</span><input name="password" type="password" [(ngModel)]="form.password" required minlength="6" autocomplete="new-password" placeholder="Enter password" /><small>Minimum 6 characters.</small></label>
+          <label class="form-field"><span>Role</span><select name="role" [(ngModel)]="form.role"><option value="USER">USER</option><option value="ADMIN">ADMIN</option></select></label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-header"><h2>Permissions</h2><p>Select the actions this user is allowed to perform.</p></div>
+
+        @for (entry of grouped | keyvalue; track entry.key) {
+          <section class="permission-group">
+            <h3>{{ entry.key }}</h3>
+            <div class="permission-grid">
+              @for (item of entry.value; track item.code) {
+                <label class="permission-item">
+                  <input type="checkbox" [checked]="has(item.code)" (change)="toggle(item.code, $any($event.target).checked)" />
+                  <span class="custom-checkbox"></span>
+                  <span><strong>{{ item.action }}</strong><small>{{ item.code }}</small></span>
+                </label>
+              }
+            </div>
+          </section>
+        }
+      </div>
+
+      <div class="admin-notice">
+        <strong>Administrator access</strong>
+        <span>ADMIN users automatically receive all permissions.</span>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/users" class="secondary-button">Cancel</a>
+        <button type="submit" class="primary-button" [disabled]="loading">{{ loading ? 'Creating User...' : 'Create User' }}</button>
+      </div>
+    </form>
+  </section>
+</main>

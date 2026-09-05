@@ -1,0 +1,94 @@
+<main class="entity-page">
+  <header class="entity-header">
+    <div class="entity-header-main">
+      <span class="eyebrow">MANAGEMENT / COMPANIES</span>
+      <h1>Company Details</h1>
+      <p>Review company registration data and compliance context.</p>
+    </div>
+    <a routerLink="/companies" class="back-link">Back to Companies</a>
+  </header>
+
+  @if (errorMessage) {
+    <div class="alert error">{{ errorMessage }}</div>
+  }
+
+  @if (company$ | async; as company) {
+    <section class="entity-toolbar">
+      <div class="identity">
+        <div class="identity-avatar">{{ company.name.charAt(0).toUpperCase() }}</div>
+        <div>
+          <strong>{{ company.name }}</strong>
+          <span>{{ company.documentNumber }}</span>
+        </div>
+      </div>
+
+      <div class="toolbar-actions">
+        <a [routerLink]="['/companies', company.id, 'edit']" class="button button-primary">Edit</a>
+        <button type="button" class="button button-danger" [disabled]="deleting" (click)="deleteCompany(company.id)">
+          {{ deleting ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="details-card">
+      <div class="section-heading">
+        <div>
+          <h2>Company Information</h2>
+          <p>Core information registered for this company.</p>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item primary">
+          <span>Company Name</span>
+          <strong>{{ company.name }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Document Number</span>
+          <strong>{{ company.documentNumber }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Segment</span>
+          <strong>{{ company.segment || 'Not specified' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Country</span>
+          <strong>{{ company.country || 'Not specified' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>City</span>
+          <strong>{{ company.city || 'Not specified' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Company ID</span>
+          <strong>#{{ company.id }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-card secondary-card">
+      <div class="section-heading">
+        <div>
+          <h2>Record Information</h2>
+          <p>Audit timestamps for this company record.</p>
+        </div>
+      </div>
+
+      <div class="detail-grid compact">
+        <div class="detail-item">
+          <span>Created At</span>
+          <strong>{{ company.createdAt }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Updated At</span>
+          <strong>{{ company.updatedAt }}</strong>
+        </div>
+      </div>
+    </section>
+  } @else {
+    <section class="loading-card">
+      <div class="spinner"></div>
+      <span>Loading company details...</span>
+    </section>
+  }
+</main>

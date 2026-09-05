@@ -1,0 +1,59 @@
+<main class="entity-page">
+  <header class="entity-header">
+    <div>
+      <span class="eyebrow">MANAGEMENT / COMPANIES</span>
+      <h1>Edit Company</h1>
+      <p>Update company registration data.</p>
+    </div>
+    <a [routerLink]="['/companies', companyId]" class="back-link">Back to Details</a>
+  </header>
+
+  @if (errorMessage) { <div class="alert error">{{ errorMessage }}</div> }
+
+  @if (loading) {
+    <section class="loading-card"><div class="spinner"></div><span>Loading company data...</span></section>
+  }
+
+  @if (!loading && !errorMessage) {
+    <section class="edit-card">
+      <div class="section-heading">
+        <div>
+          <h2>Company Information</h2>
+          <p>Update the fields below and save your changes.</p>
+        </div>
+      </div>
+
+      <form (ngSubmit)="submit()">
+        <div class="form-grid">
+          <div class="form-field wide">
+            <label for="name">Company Name</label>
+            <input id="name" name="name" type="text" required [(ngModel)]="form.name" />
+          </div>
+          <div class="form-field">
+            <label for="documentNumber">Document Number</label>
+            <input id="documentNumber" name="documentNumber" type="text" required [(ngModel)]="form.documentNumber" />
+          </div>
+          <div class="form-field">
+            <label for="segment">Segment</label>
+            <input id="segment" name="segment" type="text" [(ngModel)]="form.segment" />
+          </div>
+          <div class="form-field">
+            <label for="country">Country</label>
+            <input id="country" name="country" type="text" [(ngModel)]="form.country" />
+          </div>
+          <div class="form-field">
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" [(ngModel)]="form.city" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a [routerLink]="['/companies', companyId]" class="button button-secondary">Cancel</a>
+          <button type="submit" class="button button-primary" [disabled]="saving">
+            {{ saving ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  }
+</main>

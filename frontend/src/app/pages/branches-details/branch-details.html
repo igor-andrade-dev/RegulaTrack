@@ -1,0 +1,91 @@
+<main class="entity-page">
+  <header class="entity-header">
+    <div>
+      <span class="eyebrow">MANAGEMENT / BRANCHES</span>
+      <h1>Branch Details</h1>
+      <p>Review branch information and its company relationship.</p>
+    </div>
+    <a routerLink="/branches" class="back-link">Back to Branches</a>
+  </header>
+
+  @if (errorMessage) { <div class="alert error">{{ errorMessage }}</div> }
+
+  @if (branch$ | async; as branch) {
+    <section class="entity-toolbar">
+      <div class="identity">
+        <div class="identity-avatar">{{ branch.name.charAt(0).toUpperCase() }}</div>
+        <div>
+          <strong>{{ branch.name }}</strong>
+          <span>{{ branch.companyName }}</span>
+        </div>
+      </div>
+      <div class="toolbar-actions">
+        <a [routerLink]="['/branches', branch.id, 'edit']" class="button button-primary">Edit</a>
+        <button type="button" class="button button-danger" [disabled]="deleting" (click)="deleteBranch(branch.id)">
+          {{ deleting ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </section>
+
+    <section class="details-card">
+      <div class="section-heading">
+        <div>
+          <h2>Branch Information</h2>
+          <p>Core information registered for this operational unit.</p>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-item primary">
+          <span>Branch Name</span>
+          <strong>{{ branch.name }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Company</span>
+          <strong>{{ branch.companyName }}</strong>
+        </div>
+        <div class="detail-item wide">
+          <span>Address</span>
+          <strong>{{ branch.address || 'No address registered' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>City</span>
+          <strong>{{ branch.city || 'Not specified' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>State</span>
+          <strong>{{ branch.state || 'Not specified' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Country</span>
+          <strong>{{ branch.country || 'Not specified' }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Branch ID</span>
+          <strong>#{{ branch.id }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-card secondary-card">
+      <div class="section-heading">
+        <div>
+          <h2>Record Information</h2>
+          <p>Audit timestamps for this branch record.</p>
+        </div>
+      </div>
+      <div class="detail-grid compact">
+        <div class="detail-item">
+          <span>Created At</span>
+          <strong>{{ branch.createdAt }}</strong>
+        </div>
+        <div class="detail-item">
+          <span>Updated At</span>
+          <strong>{{ branch.updatedAt }}</strong>
+        </div>
+      </div>
+    </section>
+  } @else {
+    <section class="loading-card"><div class="spinner"></div><span>Loading branch details...</span></section>
+  }
+</main>

@@ -1,0 +1,195 @@
+<main class="license-details-page">
+
+  <header class="page-header">
+    <div class="page-header-copy">
+      <span class="page-eyebrow">MANAGEMENT / LICENSES</span>
+      <h1>License Details</h1>
+      <p>Review the selected license, its validity and responsible contact.</p>
+    </div>
+
+    <a routerLink="/licenses" class="back-link">
+      Back to Licenses
+    </a>
+  </header>
+
+  @if (license$ | async; as license) {
+
+    <section class="license-summary-card">
+      <div class="summary-content">
+        <div>
+          <div class="summary-kicker">REGULATORY LICENSE</div>
+          <h2>{{ license.name }}</h2>
+          <p>{{ license.description || 'No description registered.' }}</p>
+        </div>
+
+        <span
+          class="license-status"
+          [class]="getStatusClass(license.status)"
+        >
+          {{ getStatusLabel(license.status) }}
+        </span>
+      </div>
+
+      <div class="summary-actions">
+        <a
+          [routerLink]="['/licenses', license.id, 'edit']"
+          class="action-button primary"
+        >
+          Edit License
+        </a>
+
+        <button
+          type="button"
+          class="action-button danger"
+          [disabled]="deleting"
+          (click)="deleteLicense(license.id)"
+        >
+          {{ deleting ? 'Deleting...' : 'Delete License' }}
+        </button>
+      </div>
+    </section>
+
+    @if (errorMessage) {
+      <div class="error-card" role="alert">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <section class="details-card">
+      <div class="section-heading">
+        <div>
+          <h2>License Information</h2>
+          <p>Core information recorded for this license.</p>
+        </div>
+      </div>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <span>License Number</span>
+          <strong>{{ license.licenseNumber }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Category</span>
+          <strong>{{ license.category }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Issuer</span>
+          <strong>{{ license.issuer }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Company ID</span>
+          <strong>#{{ license.companyId }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Branch ID</span>
+          <strong>#{{ license.branchId }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Issued At</span>
+          <strong>{{ license.issuedAt }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Expires At</span>
+          <strong>{{ license.expiresAt || 'No expiration' }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Responsible Name</span>
+          <strong>{{ license.responsibleName }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Responsible Email</span>
+          <strong>{{ license.responsibleEmail }}</strong>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="details-card">
+      <div class="section-heading">
+        <div>
+          <h2>Notes</h2>
+          <p>Additional information and internal notes.</p>
+        </div>
+      </div>
+
+      <div class="notes-panel">
+        {{ license.notes || 'No notes registered.' }}
+      </div>
+    </section>
+
+    <section class="details-card documents-card">
+      <div class="section-heading documents-heading">
+        <div>
+          <h2>Documents</h2>
+          <p>Store and manage supporting documents for this license.</p>
+        </div>
+
+        @if (can('LICENSE_DOCUMENT_UPLOAD')) {
+          <label class="upload-button">
+            <input type="file" hidden (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt" />
+            + Add Document
+          </label>
+        }
+      </div>
+
+      @if (selectedFile) {
+        <div class="selected-file">
+          <span>{{ selectedFile.name }}</span>
+          <button type="button" class="document-upload-submit" [disabled]="uploading" (click)="uploadDocument()">
+            {{ uploading ? 'Uploading...' : 'Upload' }}
+          </button>
+        </div>
+      }
+
+      @if (documentMessage) {
+        <div class="document-message">{{ documentMessage }}</div>
+      }
+
+      @if (documents.length > 0) {
+        <div class="document-list">
+          @for (document of documents; track document.id) {
+            <div class="document-row">
+              <div class="document-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5"/></svg>
+              </div>
+              <div class="document-info">
+                <strong>{{ document.originalName }}</strong>
+                <span>{{ formatFileSize(document.size) }} · {{ document.uploadedAt | date:'MMM d, y' }}</span>
+              </div>
+              <div class="document-actions">
+                @if (can('LICENSE_DOCUMENT_VIEW')) {
+                  <button type="button" class="document-action" (click)="viewDocument(document)">View</button>
+                  <button type="button" class="document-action" (click)="downloadDocument(document)">Download</button>
+                }
+                @if (can('LICENSE_DOCUMENT_DELETE')) {
+                  <button type="button" class="document-action danger" [disabled]="deletingDocumentId === document.id" (click)="deleteDocument(document)">
+                    {{ deletingDocumentId === document.id ? 'Deleting...' : 'Delete' }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="documents-empty">No documents have been uploaded for this license yet.</div>
+      }
+    </section>
+
+  } @else {
+
+    <section class="state-card">
+      <div class="loading-spinner"></div>
+      <span>Loading license details...</span>
+    </section>
+
+  }
+</main>

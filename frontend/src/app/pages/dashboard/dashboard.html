@@ -1,0 +1,722 @@
+<main class="dashboard-page">
+
+  <!-- PAGE HEADER -->
+  <header class="dashboard-header">
+
+    <div>
+
+      <span class="dashboard-eyebrow">
+        REGULATRACK
+      </span>
+
+      <h1>
+        Regulatory License Dashboard
+      </h1>
+
+      <p>
+        Monitor your regulatory compliance environment from a single place.
+      </p>
+
+    </div>
+
+  </header>
+
+
+  @if (summary$ | async; as s) {
+
+    <!-- SUMMARY -->
+    <section class="dashboard-stats">
+
+      <article class="stat-card">
+
+        <div class="stat-card-header">
+
+          <div class="stat-icon stat-icon-blue">
+            C
+          </div>
+
+          <span>
+            Companies
+          </span>
+
+        </div>
+
+        <strong>
+          {{ s.totalCompanies }}
+        </strong>
+
+        <small>
+          Total registered companies
+        </small>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-card-header">
+
+          <div class="stat-icon stat-icon-indigo">
+            B
+          </div>
+
+          <span>
+            Branches
+          </span>
+
+        </div>
+
+        <strong>
+          {{ s.totalBranches }}
+        </strong>
+
+        <small>
+          Total company branches
+        </small>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-card-header">
+
+          <div class="stat-icon stat-icon-purple">
+            L
+          </div>
+
+          <span>
+            Total Licenses
+          </span>
+
+        </div>
+
+        <strong>
+          {{ s.totalLicenses }}
+        </strong>
+
+        <small>
+          Regulatory licenses
+        </small>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <div class="stat-card-header">
+
+          <div class="stat-icon stat-icon-green">
+            ✓
+          </div>
+
+          <span>
+            Active
+          </span>
+
+        </div>
+
+        <strong>
+          {{ s.activeLicenses }}
+        </strong>
+
+        <small>
+          Currently active
+        </small>
+
+      </article>
+
+    </section>
+
+
+    <!-- ALERT CARDS -->
+    <section class="dashboard-secondary-stats">
+
+      <article class="status-card">
+
+        <div class="status-card-info">
+
+          <span>
+            Expiring Soon
+          </span>
+
+          <strong>
+            {{ s.expiringSoonLicenses }}
+          </strong>
+
+        </div>
+
+        <span class="status-badge warning">
+          Attention
+        </span>
+
+      </article>
+
+
+      <article class="status-card">
+
+        <div class="status-card-info">
+
+          <span>
+            Expired
+          </span>
+
+          <strong>
+            {{ s.expiredLicenses }}
+          </strong>
+
+        </div>
+
+        <span class="status-badge danger">
+          Critical
+        </span>
+
+      </article>
+
+
+      <article class="status-card">
+
+        <div class="status-card-info">
+
+          <span>
+            Pending
+          </span>
+
+          <strong>
+            {{ s.pendingLicenses }}
+          </strong>
+
+        </div>
+
+        <span class="status-badge neutral">
+          Pending
+        </span>
+
+      </article>
+
+    </section>
+
+
+    <!-- DASHBOARD GRID -->
+    <section class="dashboard-grid">
+
+
+      <!-- LICENSE STATUS CHART -->
+      <article class="dashboard-panel chart-panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <h2>
+              License Status
+            </h2>
+
+            <p>
+              Current distribution of regulatory licenses.
+            </p>
+
+          </div>
+
+          <span class="panel-total">
+            {{ s.totalLicenses }} total
+          </span>
+
+        </div>
+
+
+        <div class="chart">
+
+          <!-- ACTIVE -->
+          <div class="chart-row">
+
+            <div class="chart-label">
+
+              <div class="chart-label-name">
+
+                <span class="chart-dot active"></span>
+
+                <span>
+                  Active
+                </span>
+
+              </div>
+
+              <strong>
+                {{ s.activeLicenses }}
+              </strong>
+
+            </div>
+
+            <div class="chart-track">
+
+              <div
+                class="chart-bar active"
+                [style.width.%]="
+                  getPercentage(
+                    s.activeLicenses,
+                    s.totalLicenses
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <span class="chart-percentage">
+
+              {{
+                getPercentage(
+                  s.activeLicenses,
+                  s.totalLicenses
+                )
+              }}%
+
+            </span>
+
+          </div>
+
+
+          <!-- EXPIRING -->
+          <div class="chart-row">
+
+            <div class="chart-label">
+
+              <div class="chart-label-name">
+
+                <span class="chart-dot warning"></span>
+
+                <span>
+                  Expiring Soon
+                </span>
+
+              </div>
+
+              <strong>
+                {{ s.expiringSoonLicenses }}
+              </strong>
+
+            </div>
+
+            <div class="chart-track">
+
+              <div
+                class="chart-bar warning"
+                [style.width.%]="
+                  getPercentage(
+                    s.expiringSoonLicenses,
+                    s.totalLicenses
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <span class="chart-percentage">
+
+              {{
+                getPercentage(
+                  s.expiringSoonLicenses,
+                  s.totalLicenses
+                )
+              }}%
+
+            </span>
+
+          </div>
+
+
+          <!-- EXPIRED -->
+          <div class="chart-row">
+
+            <div class="chart-label">
+
+              <div class="chart-label-name">
+
+                <span class="chart-dot danger"></span>
+
+                <span>
+                  Expired
+                </span>
+
+              </div>
+
+              <strong>
+                {{ s.expiredLicenses }}
+              </strong>
+
+            </div>
+
+            <div class="chart-track">
+
+              <div
+                class="chart-bar danger"
+                [style.width.%]="
+                  getPercentage(
+                    s.expiredLicenses,
+                    s.totalLicenses
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <span class="chart-percentage">
+
+              {{
+                getPercentage(
+                  s.expiredLicenses,
+                  s.totalLicenses
+                )
+              }}%
+
+            </span>
+
+          </div>
+
+
+          <!-- PENDING -->
+          <div class="chart-row">
+
+            <div class="chart-label">
+
+              <div class="chart-label-name">
+
+                <span class="chart-dot neutral"></span>
+
+                <span>
+                  Pending
+                </span>
+
+              </div>
+
+              <strong>
+                {{ s.pendingLicenses }}
+              </strong>
+
+            </div>
+
+            <div class="chart-track">
+
+              <div
+                class="chart-bar neutral"
+                [style.width.%]="
+                  getPercentage(
+                    s.pendingLicenses,
+                    s.totalLicenses
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <span class="chart-percentage">
+
+              {{
+                getPercentage(
+                  s.pendingLicenses,
+                  s.totalLicenses
+                )
+              }}%
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- COMPLIANCE OVERVIEW -->
+      <article class="dashboard-panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <h2>
+              Compliance Overview
+            </h2>
+
+            <p>
+              High-level regulatory indicators.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="compliance-overview">
+
+          <div class="compliance-main">
+
+            <strong>
+              {{
+                getPercentage(
+                  s.activeLicenses,
+                  s.totalLicenses
+                )
+              }}%
+            </strong>
+
+            <span>
+              Active license rate
+            </span>
+
+          </div>
+
+
+          <div class="overview-row">
+
+            <span>
+              Total Licenses
+            </span>
+
+            <strong>
+              {{ s.totalLicenses }}
+            </strong>
+
+          </div>
+
+
+          <div class="overview-row">
+
+            <span>
+              Active
+            </span>
+
+            <strong class="text-success">
+              {{ s.activeLicenses }}
+            </strong>
+
+          </div>
+
+
+          <div class="overview-row">
+
+            <span>
+              Expiring Soon
+            </span>
+
+            <strong class="text-warning">
+              {{ s.expiringSoonLicenses }}
+            </strong>
+
+          </div>
+
+
+          <div class="overview-row">
+
+            <span>
+              Expired
+            </span>
+
+            <strong class="text-danger">
+              {{ s.expiredLicenses }}
+            </strong>
+
+          </div>
+
+
+          <div class="overview-row">
+
+            <span>
+              Pending
+            </span>
+
+            <strong>
+              {{ s.pendingLicenses }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- RECENT LICENSES -->
+    <section class="dashboard-panel recent-licenses">
+
+      <div class="panel-header">
+
+        <div>
+
+          <h2>
+            Recent Licenses
+          </h2>
+
+          <p>
+            Recently registered regulatory licenses.
+          </p>
+
+        </div>
+
+        <a
+          routerLink="/licenses"
+          class="view-all-link"
+        >
+          View All
+        </a>
+
+      </div>
+
+
+      @if (recentLicenses$ | async; as response) {
+
+        @if (response.content.length > 0) {
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+              <tr>
+
+                <th>
+                  License
+                </th>
+
+                <th>
+                  License Number
+                </th>
+
+                <th>
+                  Category
+                </th>
+
+                <th>
+                  Status
+                </th>
+
+                <th>
+                  Expires
+                </th>
+
+              </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                @for (
+                  license of response.content;
+                  track license.id
+                  ) {
+
+                  <tr>
+
+                    <td>
+
+                      <div class="license-name">
+
+                        <strong>
+                          {{ license.name }}
+                        </strong>
+
+                        <span>
+                          ID #{{ license.id }}
+                        </span>
+
+                      </div>
+
+                    </td>
+
+
+                    <td>
+                      {{ license.licenseNumber }}
+                    </td>
+
+
+                    <td>
+                      {{ license.category }}
+                    </td>
+
+
+                    <td>
+
+                      <span
+                        class="license-status"
+                        [class]="
+                          getStatusClass(
+                            license.status
+                          )
+                        "
+                      >
+                        {{ getStatusLabel(license.status) }}
+                      </span>
+
+                    </td>
+
+
+                    <td>
+
+                      @if (license.expiresAt) {
+
+                        {{
+                          license.expiresAt
+                            | date:'MMM d, y'
+                        }}
+
+                      } @else {
+
+                        <span class="no-expiration">
+                          No expiration
+                        </span>
+
+                      }
+
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        } @else {
+
+          <div class="empty-state">
+
+            <strong>
+              No licenses found
+            </strong>
+
+            <span>
+              There are no registered licenses yet.
+            </span>
+
+          </div>
+
+        }
+
+      }
+
+    </section>
+
+  }
+
+  @else {
+
+    <section class="dashboard-loading">
+
+      <div class="loading-spinner"></div>
+
+      <span>
+        Loading dashboard data...
+      </span>
+
+    </section>
+
+  }
+
+</main>

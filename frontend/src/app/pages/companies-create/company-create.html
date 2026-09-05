@@ -1,0 +1,60 @@
+<main class="entity-create-page">
+  <header class="entity-create-header">
+    <div>
+      <span class="entity-create-eyebrow">MANAGEMENT</span>
+      <h1>New Company</h1>
+      <p>Create a company and register its core business information.</p>
+    </div>
+
+    <a routerLink="/companies" class="back-link">Back to Companies</a>
+  </header>
+
+  <section class="entity-create-card">
+    @if (errorMessage) {
+      <div class="form-error">{{ errorMessage }}</div>
+    }
+
+    <form (ngSubmit)="submit()" novalidate>
+      <div class="section-header">
+        <div>
+          <h2>Company Information</h2>
+          <p>Enter the main information for this company.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field form-field-full">
+          <label for="name">Company Name</label>
+          <input id="name" name="name" type="text" required autocomplete="organization" [(ngModel)]="form.name" placeholder="Enter company name" />
+        </div>
+
+        <div class="form-field">
+          <label for="documentNumber">Document Number</label>
+          <input id="documentNumber" name="documentNumber" type="text" required [(ngModel)]="form.documentNumber" placeholder="Enter document number" />
+        </div>
+
+        <div class="form-field">
+          <label for="segment">Business Segment</label>
+          <input id="segment" name="segment" type="text" required [(ngModel)]="form.segment" placeholder="Enter business segment" />
+        </div>
+
+        <div class="form-field">
+          <label for="country">Country</label>
+          <input id="country" name="country" type="text" required autocomplete="country-name" [(ngModel)]="form.country" placeholder="Enter country" />
+        </div>
+
+        <div class="form-field">
+          <label for="city">City</label>
+          <input id="city" name="city" type="text" required autocomplete="address-level2" [(ngModel)]="form.city" placeholder="Enter city" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/companies" class="cancel-button">Cancel</a>
+        <button type="submit" class="save-button" [disabled]="loading">
+          {{ loading ? 'Creating Company...' : 'Create Company' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

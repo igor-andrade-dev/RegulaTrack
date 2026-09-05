@@ -1,0 +1,322 @@
+<main class="license-edit-page">
+
+  <header class="page-header">
+    <div class="page-header-copy">
+      <span class="page-eyebrow">MANAGEMENT / LICENSES</span>
+      <h1>Edit License</h1>
+      <p>Update regulatory license information, ownership and expiration details.</p>
+    </div>
+
+    <a
+      [routerLink]="['/licenses', licenseId]"
+      class="back-link"
+    >
+      Back to Details
+    </a>
+  </header>
+
+  @if (loading) {
+    <section class="state-card">
+      <div class="loading-spinner"></div>
+      <span>Loading license data...</span>
+    </section>
+  }
+
+  @if (errorMessage) {
+    <section class="error-card" role="alert">
+      <strong>Unable to load license</strong>
+      <span>{{ errorMessage }}</span>
+    </section>
+  }
+
+  @if (!loading && !errorMessage) {
+    <section class="form-card">
+      <form (ngSubmit)="submit()" novalidate>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <div>
+              <h2>License Information</h2>
+              <p>Core information about this regulatory license.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-field">
+              <label for="companyId">Company</label>
+              <select
+                id="companyId"
+                name="companyId"
+                required
+                [(ngModel)]="form.companyId"
+              >
+                <option [ngValue]="null">Select a company</option>
+
+                @if (companies$ | async; as companies) {
+                  @for (company of companies; track company.id) {
+                    <option [ngValue]="company.id">
+                      {{ company.name }}
+                    </option>
+                  }
+                }
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="branchId">Branch</label>
+              <select
+                id="branchId"
+                name="branchId"
+                required
+                [(ngModel)]="form.branchId"
+              >
+                <option [ngValue]="null">Select a branch</option>
+
+                @if (branches$ | async; as branches) {
+                  @for (branch of branches; track branch.id) {
+                    <option [ngValue]="branch.id">
+                      {{ branch.name }}
+                    </option>
+                  }
+                }
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="name">License Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                [(ngModel)]="form.name"
+                placeholder="Enter license name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="category">Category</label>
+              <input
+                id="category"
+                name="category"
+                type="text"
+                required
+                [(ngModel)]="form.category"
+                placeholder="e.g. Environmental"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="licenseNumber">License Number</label>
+              <input
+                id="licenseNumber"
+                name="licenseNumber"
+                type="text"
+                required
+                [(ngModel)]="form.licenseNumber"
+                placeholder="Enter license number"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="issuer">Issuer</label>
+              <input
+                id="issuer"
+                name="issuer"
+                type="text"
+                required
+                [(ngModel)]="form.issuer"
+                placeholder="Issuing authority"
+              />
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <div>
+              <h2>Validity</h2>
+              <p>Define when the license was issued and when it expires.</p>
+            </div>
+          </div>
+
+          <div class="form-grid two-columns">
+            <div class="form-field">
+              <label for="issuedAt">Issued At</label>
+              <input
+                id="issuedAt"
+                name="issuedAt"
+                type="date"
+                required
+                [(ngModel)]="form.issuedAt"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="expiresAt">Expires At</label>
+              <input
+                id="expiresAt"
+                name="expiresAt"
+                type="date"
+                [(ngModel)]="form.expiresAt"
+              />
+              <small>Leave blank when the license has no expiration date.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <div>
+              <h2>Responsible Person</h2>
+              <p>Contact information for the person responsible for this license.</p>
+            </div>
+          </div>
+
+          <div class="form-grid two-columns">
+            <div class="form-field">
+              <label for="responsibleName">Responsible Name</label>
+              <input
+                id="responsibleName"
+                name="responsibleName"
+                type="text"
+                required
+                [(ngModel)]="form.responsibleName"
+                placeholder="Enter responsible person's name"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="responsibleEmail">Responsible Email</label>
+              <input
+                id="responsibleEmail"
+                name="responsibleEmail"
+                type="email"
+                required
+                [(ngModel)]="form.responsibleEmail"
+                placeholder="name@company.com"
+              />
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-section">
+          <div class="section-heading">
+            <div>
+              <h2>Documents</h2>
+              <p>Upload supporting documents for this license.</p>
+            </div>
+          </div>
+
+          @if (can('LICENSE_DOCUMENT_UPLOAD')) {
+            <label class="upload-button">
+              <input type="file" hidden (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt" />
+              + Add Document
+            </label>
+          }
+
+          @if (selectedFile) {
+            <div class="selected-file">
+              <span>{{ selectedFile.name }}</span>
+              <button type="button" class="document-upload-submit" [disabled]="uploading" (click)="uploadDocument()">
+                {{ uploading ? 'Uploading...' : 'Upload' }}
+              </button>
+            </div>
+          }
+
+          @if (documentMessage) { <div class="document-message">{{ documentMessage }}</div> }
+
+          <div class="document-list">
+            @for (document of documents; track document.id) {
+              <div class="document-row">
+                <div class="document-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5"/></svg>
+                </div>
+                <div class="document-info">
+                  <strong>{{ document.originalName }}</strong>
+                  <span>{{ formatFileSize(document.size) }} · {{ document.uploadedAt }}</span>
+                </div>
+                <div class="document-actions">
+                  @if (can('LICENSE_DOCUMENT_VIEW')) {
+                    <button type="button" class="document-action" (click)="viewDocument(document)">View</button>
+                    <button type="button" class="document-action" (click)="downloadDocument(document)">Download</button>
+                  }
+                  @if (can('LICENSE_DOCUMENT_DELETE')) {
+                    <button type="button" class="document-action danger" [disabled]="deletingDocumentId === document.id" (click)="deleteDocument(document)">{{ deletingDocumentId === document.id ? 'Deleting...' : 'Delete' }}</button>
+                  }
+                </div>
+              </div>
+            } @empty {
+              <div class="documents-empty">No supporting documents have been uploaded yet.</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-section form-section-last">
+          <div class="section-heading">
+            <div>
+              <h2>Additional Information</h2>
+              <p>Add context or internal notes for this license.</p>
+            </div>
+          </div>
+
+          <div class="form-grid-single">
+            <div class="form-field">
+              <label for="description">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                [(ngModel)]="form.description"
+                placeholder="Describe the purpose or scope of this license"
+              ></textarea>
+            </div>
+
+            <div class="form-field">
+              <label for="notes">Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="4"
+                [(ngModel)]="form.notes"
+                placeholder="Add internal notes"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        @if (errorMessage) {
+          <div class="form-error" role="alert">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <div class="form-actions">
+          <a
+            [routerLink]="['/licenses', licenseId]"
+            class="cancel-button"
+          >
+            Cancel
+          </a>
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="saving"
+          >
+            @if (saving) {
+              <span class="button-spinner"></span>
+              <span>Saving...</span>
+            } @else {
+              <span>Save Changes</span>
+            }
+          </button>
+        </div>
+
+      </form>
+    </section>
+  }
+</main>

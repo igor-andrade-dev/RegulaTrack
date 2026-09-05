@@ -1,0 +1,64 @@
+<main class="resource-page">
+  <header class="resource-header">
+    <div>
+      <span class="resource-eyebrow">MANAGEMENT</span>
+      <h1>Companies</h1>
+      <p>Manage companies registered in the regulatory license platform.</p>
+    </div>
+    @if (can('COMPANIES_CREATE')) {
+      <a routerLink="/companies/new" class="primary-button"><span aria-hidden="true">+</span> New Company</a>
+    }
+  </header>
+
+  <section class="filter-card">
+    <form class="filter-grid" (ngSubmit)="search()">
+      <div class="filter-field">
+        <label for="companyName">Name</label>
+        <input id="companyName" name="name" type="text" placeholder="Search by company name" [(ngModel)]="filters.name" />
+      </div>
+      <div class="filter-actions">
+        <button type="submit" class="filter-primary">Apply Filters</button>
+        <button type="button" class="filter-secondary" (click)="clearFilters()">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  @if (errorMessage) { <div class="alert alert-error">{{ errorMessage }}</div> }
+
+  @if (companies$ | async; as companies) {
+    <section class="resource-card">
+      <div class="resource-card-header">
+        <div><h2>Companies</h2><p>{{ companies.length }} registered {{ companies.length === 1 ? 'company' : 'companies' }}.</p></div>
+        <span class="count-badge">{{ companies.length }}</span>
+      </div>
+
+      @if (companies.length > 0) {
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Company</th><th>Document</th><th>Segment</th><th>Location</th><th>Created</th><th class="actions-cell">Actions</th></tr></thead>
+            <tbody>
+              @for (company of companies; track company.id) {
+                <tr>
+                  <td><div class="identity-cell"><div class="identity-avatar">{{ company.name.charAt(0).toUpperCase() }}</div><div><strong>{{ company.name }}</strong><span>ID #{{ company.id }}</span></div></div></td>
+                  <td>{{ company.documentNumber }}</td>
+                  <td>{{ company.segment }}</td>
+                  <td>{{ company.city }}, {{ company.country }}</td>
+                  <td>{{ company.createdAt }}</td>
+                  <td class="actions-cell"><div class="row-actions">
+                    <a class="icon-button" [routerLink]="['/companies', company.id]" title="View company" aria-label="View company"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg></a>
+                    @if (can('COMPANIES_UPDATE')) { <a class="icon-button edit" [routerLink]="['/companies', company.id, 'edit']" title="Edit company" aria-label="Edit company"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></a> }
+                    @if (can('COMPANIES_DELETE')) { <button type="button" class="icon-button delete" [disabled]="deletingId === company.id" (click)="deleteCompany(company.id)" title="Delete company" aria-label="Delete company">{{ deletingId === company.id ? '...' : '×' }}</button> }
+                  </div></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state"><strong>No companies found</strong><span>Try changing your search filters.</span></div>
+      }
+    </section>
+  } @else {
+    <section class="loading-state"><span class="loading-spinner"></span><span>Loading companies...</span></section>
+  }
+</main>

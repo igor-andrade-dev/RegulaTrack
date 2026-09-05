@@ -1,0 +1,106 @@
+<main class="resource-page">
+  <header class="resource-header">
+    <div>
+      <span class="resource-eyebrow">ADMINISTRATION</span>
+      <h1>Users &amp; Permissions</h1>
+      <p>Manage users, roles and module permissions.</p>
+    </div>
+
+    @if (can('USERS_CREATE')) {
+      <a routerLink="/users/new" class="primary-button">
+        <span aria-hidden="true">+</span>
+        New User
+      </a>
+    }
+  </header>
+
+  @if (errorMessage) {
+    <div class="alert alert-error">{{ errorMessage }}</div>
+  }
+
+  @if (users$ | async; as users) {
+    <section class="resource-card">
+      <div class="resource-card-header">
+        <div>
+          <h2>Users</h2>
+          <p>Manage access to your RegulaTrack workspace.</p>
+        </div>
+        <span class="count-badge">{{ users.length }} {{ users.length === 1 ? 'user' : 'users' }}</span>
+      </div>
+
+      @if (users.length > 0) {
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Email</th><th>Role</th>
+                <th>Permissions</th>
+                <th class="actions-cell">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users; track user.id) {
+                <tr>
+                  <td>
+                    <div class="identity-cell">
+                      <div class="identity-avatar">{{ user.username.charAt(0).toUpperCase() }}</div>
+                      <div>
+                        <strong>{{ user.username }}</strong>
+                        <span>User ID #{{ user.id }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="status-pill" [class.primary-pill]="user.role === 'ADMIN'">
+                      <span class="pill-dot"></span>
+                      {{ user.role === 'ADMIN' ? 'Administrator' : 'User' }}
+                    </span>
+                  </td>
+                  <td>
+                    @if (user.role === 'ADMIN') {
+                      <span class="permission-summary success-summary">All permissions</span>
+                    } @else {
+                      <span class="permission-summary">{{ user.permissions.length }} {{ user.permissions.length === 1 ? 'permission' : 'permissions' }}</span>
+                    }
+                  </td>
+                  <td class="actions-cell">
+                    <div class="row-actions">
+                      @if (can('USERS_UPDATE')) {
+                        <a class="icon-button edit" [routerLink]="['/users', user.id, 'edit']" aria-label="Edit user" title="Edit user">
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
+                        </a>
+                      }
+                      @if (can('USERS_DELETE')) {
+                        <button type="button" class="icon-button delete" [disabled]="deletingId === user.id" (click)="deleteUser(user.id)" aria-label="Delete user" title="Delete user">
+                          @if (deletingId === user.id) {
+                            <span class="button-spinner"></span>
+                          } @else {
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5" /></svg>
+                          }
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <strong>No users found</strong>
+          <span>Create your first user to start managing access.</span>
+          @if (can('USERS_CREATE')) {
+            <a routerLink="/users/new">Create User</a>
+          }
+        </div>
+      }
+    </section>
+  } @else {
+    <section class="loading-state">
+      <span class="loading-spinner"></span>
+      <span>Loading users...</span>
+    </section>
+  }
+</main>

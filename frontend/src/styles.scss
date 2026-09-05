@@ -1,0 +1,157 @@
+@use './styles/ui-system' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #eef2f7;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button,
+a {
+  transition: 0.2s ease;
+}
+
+table {
+  width: 100%;
+}
+
+::selection {
+  background: #111827;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   GLOBAL DARK MODE
+========================================================= */
+html[data-theme="dark"] body {
+  background: #0b1120;
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] .dashboard-page,
+html[data-theme="dark"] .users-page,
+html[data-theme="dark"] .resource-page,
+html[data-theme="dark"] .form-page,
+html[data-theme="dark"] .license-details-page,
+html[data-theme="dark"] .license-edit-page,
+html[data-theme="dark"] .user-create-page,
+html[data-theme="dark"] .user-edit-page {
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] .dashboard-header,
+html[data-theme="dark"] .dashboard-panel,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .status-card,
+html[data-theme="dark"] .users-card,
+html[data-theme="dark"] .resource-card,
+html[data-theme="dark"] .form-card,
+html[data-theme="dark"] .details-card,
+html[data-theme="dark"] .license-summary-card,
+html[data-theme="dark"] .state-card,
+html[data-theme="dark"] .loading-state,
+html[data-theme="dark"] .filter-card,
+html[data-theme="dark"] .user-create-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] strong,
+html[data-theme="dark"] label,
+html[data-theme="dark"] .users-title h1,
+html[data-theme="dark"] .page-header h1,
+html[data-theme="dark"] .page-header h2,
+html[data-theme="dark"] .summary-content h2,
+html[data-theme="dark"] .stat-card > strong,
+html[data-theme="dark"] .status-card-info strong {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] p,
+html[data-theme="dark"] small,
+html[data-theme="dark"] span,
+html[data-theme="dark"] td,
+html[data-theme="dark"] .page-header p,
+html[data-theme="dark"] .users-title p,
+html[data-theme="dark"] .panel-header p,
+html[data-theme="dark"] .section-header p,
+html[data-theme="dark"] .stat-card > small {
+  color: #9ca3af;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background: #0f172a !important;
+  color: #f9fafb !important;
+  border-color: #374151 !important;
+}
+
+html[data-theme="dark"] th,
+html[data-theme="dark"] thead {
+  background: #0f172a !important;
+  color: #9ca3af !important;
+  border-color: #1f2937 !important;
+}
+
+html[data-theme="dark"] td,
+html[data-theme="dark"] .users-table td {
+  border-color: #1f2937 !important;
+}
+
+html[data-theme="dark"] tbody tr:hover,
+html[data-theme="dark"] .users-table tbody tr:hover {
+  background: #172033 !important;
+}
+
+html[data-theme="dark"] .secondary-button,
+html[data-theme="dark"] .secondary-link,
+html[data-theme="dark"] .back-link,
+html[data-theme="dark"] .cancel-button,
+html[data-theme="dark"] .icon-button {
+  background: #111827 !important;
+  border-color: #374151 !important;
+  color: #d1d5db !important;
+}
+
+html[data-theme="dark"] .permission-group,
+html[data-theme="dark"] .admin-notice,
+html[data-theme="dark"] .quick-item,
+html[data-theme="dark"] .empty-state {
+  background: #0f172a !important;
+  border-color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .password-toggle {
+  color: #9ca3af;
+}
+
+html[data-theme="dark"] .primary-button,
+html[data-theme="dark"] .save-button,
+html[data-theme="dark"] .login-button,
+html[data-theme="dark"] .filter-primary {
+  background: #4f46e5 !important;
+  color: #fff !important;
+}

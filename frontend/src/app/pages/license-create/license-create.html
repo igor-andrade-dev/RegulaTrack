@@ -1,0 +1,102 @@
+<main class="entity-create-page license-create-page">
+  <header class="entity-create-header">
+    <div>
+      <span class="entity-create-eyebrow">MANAGEMENT</span>
+      <h1>New License</h1>
+      <p>Create a regulatory license and associate it with a company and branch.</p>
+    </div>
+
+    <a routerLink="/licenses" class="back-link">Back to Licenses</a>
+  </header>
+
+  <section class="entity-create-card">
+    @if (errorMessage) {
+      <div class="form-error">{{ errorMessage }}</div>
+    }
+
+    <form (ngSubmit)="submit()" novalidate>
+      <div class="section-header">
+        <div><h2>License Information</h2><p>Provide the license, issuer and validity information.</p></div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="companyId">Company</label>
+          <select id="companyId" name="companyId" required [(ngModel)]="form.companyId">
+            <option [ngValue]="null">Select a company</option>
+            @if (companies$ | async; as companies) {
+              @for (company of companies; track company.id) { <option [ngValue]="company.id">{{ company.name }}</option> }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="branchId">Branch</label>
+          <select id="branchId" name="branchId" required [(ngModel)]="form.branchId">
+            <option [ngValue]="null">Select a branch</option>
+            @if (branches$ | async; as branches) {
+              @for (branch of branches; track branch.id) { <option [ngValue]="branch.id">{{ branch.name }}</option> }
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="name">License Name</label>
+          <input id="name" name="name" type="text" required [(ngModel)]="form.name" placeholder="Environmental License" />
+        </div>
+
+        <div class="form-field">
+          <label for="category">Category</label>
+          <input id="category" name="category" type="text" required [(ngModel)]="form.category" placeholder="Environmental" />
+        </div>
+
+        <div class="form-field">
+          <label for="licenseNumber">License Number</label>
+          <input id="licenseNumber" name="licenseNumber" type="text" required [(ngModel)]="form.licenseNumber" placeholder="ENV-2026-001" />
+        </div>
+
+        <div class="form-field">
+          <label for="issuer">Issuer</label>
+          <input id="issuer" name="issuer" type="text" required [(ngModel)]="form.issuer" placeholder="Environmental Agency" />
+        </div>
+
+        <div class="form-field">
+          <label for="issuedAt">Issued At</label>
+          <input id="issuedAt" name="issuedAt" type="date" required [(ngModel)]="form.issuedAt" />
+        </div>
+
+        <div class="form-field">
+          <label for="expiresAt">Expires At</label>
+          <input id="expiresAt" name="expiresAt" type="date" [(ngModel)]="form.expiresAt" />
+        </div>
+
+        <div class="form-field">
+          <label for="responsibleName">Responsible Name</label>
+          <input id="responsibleName" name="responsibleName" type="text" required [(ngModel)]="form.responsibleName" placeholder="Responsible person" />
+        </div>
+
+        <div class="form-field">
+          <label for="responsibleEmail">Responsible Email</label>
+          <input id="responsibleEmail" name="responsibleEmail" type="email" required [(ngModel)]="form.responsibleEmail" placeholder="responsible@email.com" />
+        </div>
+
+        <div class="form-field form-field-full">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="4" [(ngModel)]="form.description" placeholder="License description"></textarea>
+        </div>
+
+        <div class="form-field form-field-full">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" rows="4" [(ngModel)]="form.notes" placeholder="Additional notes"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/licenses" class="cancel-button">Cancel</a>
+        <button type="submit" class="save-button" [disabled]="loading">
+          {{ loading ? 'Creating License...' : 'Create License' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

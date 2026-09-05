@@ -1,0 +1,208 @@
+<div class="app-shell">
+  <div
+    class="sidebar-backdrop"
+    [class.visible]="sidebarOpen"
+    (click)="closeSidebar()"
+  ></div>
+
+  <aside class="app-sidebar" [class.open]="sidebarOpen">
+    <div class="sidebar-brand">
+      <a class="brand" routerLink="/dashboard" (click)="closeSidebar()">
+        <span class="brand-mark">R</span>
+
+        <div class="brand-text">
+          <strong>RegulaTrack</strong>
+          <span>Compliance Platform</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+      @if (can('DASHBOARD_VIEW')) {
+        <div class="nav-section">
+          <div class="nav-section-title">MAIN</div>
+
+          <a
+            routerLink="/dashboard"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-item"
+            (click)="closeSidebar()"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 13h6V4H4v9Zm10 7h6V11h-6v9ZM4 20h6v-3H4v3Zm10-12h6V4h-6v4Z" />
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+      }
+
+      <div class="nav-section">
+        <div class="nav-section-title">MANAGEMENT</div>
+
+        @if (can('LICENSES_VIEW')) {
+          <a
+            routerLink="/licenses"
+            routerLinkActive="active"
+            class="nav-item"
+            (click)="closeSidebar()"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+                <path d="M14 3v5h5M8.5 13h7M8.5 17h7M8.5 9h2" />
+              </svg>
+            </span>
+            <span>Licenses</span>
+          </a>
+        }
+
+        @if (can('COMPANIES_VIEW')) {
+          <a
+            routerLink="/companies"
+            routerLinkActive="active"
+            class="nav-item"
+            (click)="closeSidebar()"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16M8 7h3M8 11h3M8 15h3M14 7h2M14 11h2M14 15h2M3 21h18" />
+              </svg>
+            </span>
+            <span>Companies</span>
+          </a>
+        }
+
+        @if (can('BRANCHES_VIEW')) {
+          <a
+            routerLink="/branches"
+            routerLinkActive="active"
+            class="nav-item"
+            (click)="closeSidebar()"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 21V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14M9 21v-4h6v4M8 9h2M14 9h2M8 13h2M14 13h2M3 21h18" />
+              </svg>
+            </span>
+            <span>Branches</span>
+          </a>
+        }
+      </div>
+
+      @if (can('USERS_VIEW')) {
+        <div class="nav-section">
+          <div class="nav-section-title">ADMINISTRATION</div>
+
+          <a
+            routerLink="/users"
+            routerLinkActive="active"
+            class="nav-item"
+            (click)="closeSidebar()"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16 20v-1.5a4.5 4.5 0 0 0-4.5-4.5h-3A4.5 4.5 0 0 0 4 18.5V20M10 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM17 11a3 3 0 1 0 0-6M20 20v-1.3a4 4 0 0 0-2.8-3.8" />
+              </svg>
+            </span>
+            <span>Users &amp; Permissions</span>
+          </a>
+        </div>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-account">
+        <div class="sidebar-account-avatar">{{ userInitials }}</div>
+        <div class="sidebar-account-info">
+          <strong>{{ currentUser?.username || 'User' }}</strong>
+          <span>{{ userRole }}</span>
+        </div>
+      </div>
+
+      <button type="button" class="logout-button" (click)="logout()">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M14 16l4-4-4-4M9 12h9" />
+          </svg>
+        </span>
+        <span>Logout</span>
+      </button>
+
+      <div class="app-version">
+        <span>RegulaTrack v1</span>
+        <small>Angular 22 + Spring Boot</small>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button
+          type="button"
+          class="mobile-menu-button"
+          aria-label="Open navigation"
+          [attr.aria-expanded]="sidebarOpen"
+          (click)="toggleSidebar()"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+
+        <div class="topbar-page">
+          <span>Compliance Platform</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button
+          type="button"
+          class="topbar-icon-button"
+          aria-label="Toggle dark mode"
+          title="Toggle dark mode"
+          (click)="toggleTheme()"
+        >
+          @if (theme.isDark) {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z" />
+            </svg>
+          }
+        </button>
+
+        <button
+          type="button"
+          class="topbar-icon-button"
+          aria-label="Notifications"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
+          </svg>
+        </button>
+
+        @if (currentUser) {
+          <div class="topbar-user">
+            <div class="topbar-avatar">{{ userInitials }}</div>
+
+            <div class="topbar-user-info">
+              <strong>{{ currentUser.username }}</strong>
+              <span>{{ userRole }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </header>
+
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
