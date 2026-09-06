@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 export interface Branch {
   id: number;
   companyId: number;
@@ -35,7 +37,7 @@ export interface BranchSearchParams {
   providedIn: 'root',
 })
 export class BranchService {
-  private readonly apiUrl = 'http://localhost:8083/api/branches';
+  private readonly apiUrl = `${environment.apiUrl}/api/branches`;
 
   constructor(private readonly http: HttpClient) {}
 

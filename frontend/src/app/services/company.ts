@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 export interface Company {
   id: number;
   name: string;
@@ -30,11 +32,10 @@ export interface CompanySearchParams {
   providedIn: 'root',
 })
 export class CompanyService {
-  private readonly apiUrl = 'http://localhost:8083/api/companies';
+  private readonly apiUrl = `${environment.apiUrl}/api/companies`;
 
   constructor(private readonly http: HttpClient) {}
 
-  // 🔹 LISTA COM FILTRO (PRONTO PRA SEARCH)
   findAll(params?: CompanySearchParams) {
     let httpParams = new HttpParams();
 

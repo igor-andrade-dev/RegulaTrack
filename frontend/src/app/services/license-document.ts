@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 export interface LicenseDocument {
   id: number;
   originalName: string;
@@ -11,7 +13,7 @@ export interface LicenseDocument {
 
 @Injectable({ providedIn: 'root' })
 export class LicenseDocumentService {
-  private readonly baseUrl = 'http://localhost:8083/api/licenses';
+  private readonly baseUrl = `${environment.apiUrl}/api/licenses`;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -24,6 +26,7 @@ export class LicenseDocumentService {
   upload(licenseId: number, file: File) {
     const formData = new FormData();
     formData.append('file', file);
+
     return this.http.post<LicenseDocument>(
       `${this.baseUrl}/${licenseId}/documents`,
       formData

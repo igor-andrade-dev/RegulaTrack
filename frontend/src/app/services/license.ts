@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 export interface License {
   id: number;
   companyId: number;
@@ -34,6 +36,7 @@ export interface LicenseSearchFilters {
   page?: number;
   size?: number;
 }
+
 export interface CreateLicenseRequest {
   companyId: number | null;
   branchId: number | null;
@@ -68,12 +71,9 @@ export interface UpdateLicenseRequest {
   providedIn: 'root'
 })
 export class LicenseService {
-  private readonly apiUrl = 'http://localhost:8083/api/licenses';
-
+  private readonly apiUrl = `${environment.apiUrl}/api/licenses`;
 
   constructor(private readonly http: HttpClient) {}
-
-
 
   searchLicenses(filters: LicenseSearchFilters = {}) {
     let params = new HttpParams()
