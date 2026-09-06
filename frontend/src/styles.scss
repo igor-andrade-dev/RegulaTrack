@@ -1,5 +1,19 @@
 @use './styles/ui-system' as *;
 
+:root {
+  --rt-bg: #f8fafc;
+  --rt-surface: #ffffff;
+  --rt-border: #e5e7eb;
+  --rt-text: #111827;
+}
+
+html[data-theme="dark"] {
+  --rt-bg: #0b1120;
+  --rt-surface: #111827;
+  --rt-border: #1f2937;
+  --rt-text: #f9fafb;
+}
+
 * {
   box-sizing: border-box;
 }
