@@ -1,204 +1,489 @@
-# 📊 RegulaTrack
+# RegulaTrack
 
-A modern **SaaS platform for regulatory license management**, built with **Angular + Spring Boot + PostgreSQL**.
+<p align="center">
+  A web application for managing companies, branches, regulatory licenses, users, and permissions.
+</p>
 
-The system helps organizations manage companies, branches, and regulatory licenses in a centralized and scalable way.
+<p align="center">
+  <a href="https://regulatrack.duckdns.org">🌐 Live Application</a>
+  •
+  <a href="https://regulatrack-api.duckdns.org/swagger-ui/index.html">📚 API / Swagger</a>
+  •
+  <a href="https://github.com/igor-andrade-dev/RegulaTrack">💻 Source Code</a>
+</p>
 
 ---
 
-## 🚀 Tech Stack
+## 📌 About the Project
+
+**RegulaTrack** is a full-stack web application designed to centralize the management of companies, branches, regulatory licenses, and user permissions.
+
+The project was developed using a decoupled architecture between the frontend, backend, and database, with JWT-based authentication, role and permission management, REST APIs, and versioned database migrations.
+
+The application is also deployed to a production environment using AWS infrastructure, Nginx, HTTPS, and PostgreSQL.
+
+---
+
+## 🚀 Live Demo
+
+### Application
+
+🌐 **Frontend:**  
+https://regulatrack.duckdns.org
+
+### Backend API
+
+🔗 **API:**  
+https://regulatrack-api.duckdns.org
+
+### API Documentation
+
+📚 **Swagger / OpenAPI:**  
+https://regulatrack-api.duckdns.org/swagger-ui/index.html
+
+---
+
+## 🧰 Tech Stack
 
 ### Frontend
 
-- Angular
+- Angular 22
 - TypeScript
-- SCSS (Design System)
 - RxJS
 - Angular Router
+- Tailwind CSS
+- HTML5
+- SCSS
 
 ### Backend
 
 - Java 21
-- Spring Boot 3+
-- Spring Security (JWT Authentication)
+- Spring Boot
+- Spring Security
+- JWT
 - Hibernate / JPA
+- Bean Validation
+- REST API
+- Flyway
+
+### Database
+
 - PostgreSQL
-- Flyway Migrations
 
 ### Infrastructure
 
-- Docker
-- REST API architecture
-- Stateless authentication (JWT)
-- CORS configuration
+- AWS EC2
+- AWS RDS PostgreSQL
+- Nginx
+- Linux
+- HTTPS / SSL
+- Let's Encrypt
+- Certbot
+- Git / GitHub
 
 ---
 
-## 🎯 Core Features
+## 🏗️ Architecture
 
-### 🔐 Authentication
+The application follows a decoupled architecture between the frontend, backend, and database.
 
-- JWT-based login system
-- Secure API access
-- Route protection (Angular guards)
+```text
+                         ┌───────────────────────┐
+                         │         User          │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │   Angular 22 +        │
+                         │      Tailwind         │
+                         │       Frontend        │
+                         └───────────┬───────────┘
+                                     │
+                                   HTTPS
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │         Nginx         │
+                         │  Reverse Proxy / SSL  │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │   Spring Boot REST    │
+                         │        API            │
+                         │       Java 21         │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │      PostgreSQL       │
+                         │        AWS RDS        │
+                         └───────────────────────┘
+🔐 Authentication and Security
 
-### 🏢 Companies Management
+RegulaTrack uses Spring Security and JWT for authentication and authorization.
 
-- Create, update, delete companies
-- Company details view
+Authentication Flow
+User Login
+    ↓
+Spring Security
+    ↓
+Credential Validation
+    ↓
+JWT Token
+    ↓
+Frontend sends authenticated requests
+    ↓
+JWT validation
+    ↓
+Authorized resources
 
-### 🏬 Branches Management
+The application also implements permission-based access control for different modules and operations.
 
-- Manage operational units (branches)
-- Link branches to companies
+👥 User Management and Permissions
 
-### 📄 Regulatory Licenses
+The application supports user management with granular permissions.
 
-- Full CRUD system
-- License lifecycle tracking:
-  - Active
-  - Expiring Soon
-  - Expired
-  - Pending
+Roles
+ADMIN
 
-### 📊 Dashboard
+Has full access to the system and its resources.
 
-- System overview
-- Aggregated metrics (licenses, companies, branches)
+USER
 
----
+Access is limited according to the permissions assigned to the user.
 
-## 🎨 UI / UX Design
+Permission Areas
+Dashboard
+Companies
+Branches
+Licenses
+Users
 
-- Modern SaaS layout inspired by Stripe/Linear
-- Responsive interface
-- Sidebar navigation system
-- Reusable SCSS design system
-- Card-based layout structure
-- Data tables with actions (View / Edit / Delete)
-- Clean and minimal visual hierarchy
+Supported operations include:
 
----
+View
+Create
+Update
+Delete
+🏢 Main Features
+Companies
+Create companies
+Update companies
+Delete companies
+View company information
+Associate branches with companies
+Branches
+Create branches
+Update branches
+Delete branches
+View branch information
+Associate branches with companies
+Regulatory Licenses
+Create licenses
+Update licenses
+Delete licenses
+View licenses
+Track license lifecycle
+Monitor expiration status
+License Status
+🟢 Active
+🟡 Expiring Soon
+🔴 Expired
+⚪ Pending
+Dashboard
 
-## 🔐 Authentication Flow
+The dashboard provides consolidated operational information, including:
 
-### Login Endpoint
+Total companies
+Total branches
+Total licenses
+Active licenses
+Licenses expiring soon
+Expired licenses
+Pending licenses
+🔄 Password Recovery
 
+The system provides a password recovery workflow.
+
+User requests password recovery
+            ↓
+API generates recovery token
+            ↓
+Token is stored
+            ↓
+Recovery email is sent
+            ↓
+User accesses recovery link
+            ↓
+New password is registered
+📡 REST API
+
+The backend follows REST principles and provides API documentation through OpenAPI / Swagger.
+
+Authentication
 POST /auth/login
+POST /auth/register
+POST /auth/password-reset/request
+POST /auth/password-reset/confirm
+GET  /auth/me
+System
+GET /api/health
+GET /api/dashboard/summary
+Companies
+GET    /api/companies
+POST   /api/companies
+PUT    /api/companies/{id}
+DELETE /api/companies/{id}
+Branches
+GET    /api/branches
+POST   /api/branches
+PUT    /api/branches/{id}
+DELETE /api/branches/{id}
+Licenses
+GET    /api/licenses
+POST   /api/licenses
+PUT    /api/licenses/{id}
+DELETE /api/licenses/{id}
+Users
+GET    /api/users
+POST   /api/users
+PUT    /api/users/{id}
+DELETE /api/users/{id}
+Swagger
 
+https://regulatrack-api.duckdns.org/swagger-ui/index.html
 
-### Request Example
-```json
-{
-  "username": "admin",
-  "password": "123"
-}
-Response Example
-{
-  "token": "JWT_TOKEN"
-}
+🗄️ Database
 
-⚙️ How to Run
-Backend
-docker-compose up
+RegulaTrack uses PostgreSQL as its relational database.
 
-Backend runs at:
+Database schema changes are managed with Flyway, providing versioned and repeatable database migrations.
+
+Example migration structure:
+
+V1
+V2
+V3
+V4
+...
+
+This approach helps keep database schemas consistent across development and production environments.
+
+⚙️ Local Development
+Prerequisites
+
+Make sure the following tools are installed:
+
+Java 21
+Node.js 22+
+npm
+PostgreSQL
+Git
+Clone the Repository
+git clone https://github.com/igor-andrade-dev/RegulaTrack.git
+
+cd RegulaTrack
+▶️ Running the Backend
+
+Navigate to the backend directory:
+
+cd backend
+
+On Linux/macOS:
+
+./mvnw spring-boot:run
+
+On Windows:
+
+mvnw.cmd spring-boot:run
+
+The API will be available at:
 
 http://localhost:8080
+▶️ Running the Frontend
 
-Frontend
+Open another terminal:
+
+cd frontend
+
+Install dependencies:
+
 npm install
-ng serve
 
-Frontend runs at:
+Start the development server:
+
+npm start
+
+The frontend will be available at:
 
 http://localhost:4200
+🐘 PostgreSQL Configuration
 
-🧱 Architecture
-Angular Frontend
-      ↓
-JWT Authentication
-      ↓
-Spring Boot REST API
-      ↓
-PostgreSQL Database
+Configure the required environment variables:
 
-📌 Project Status
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/regulatrack
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=your_password
 
-✔ MVP completed
-⚠ UI refinements in progress
-⚠ Advanced filtering & pagination planned
+Never commit real credentials, passwords, tokens, or secrets to Git.
 
-🧠 Key Engineering Concepts
+📦 Production Build
+Backend
+cd backend
+./mvnw clean package -DskipTests
 
-Clean layered architecture
-RESTful API design
-Stateless authentication (JWT)
-Reactive frontend architecture (RxJS)
-Component-based UI design
-Reusable SCSS design system
-Dockerized environment
+The generated JAR file will be placed under:
+
+backend/target/
+Frontend
+cd frontend
+npm run build
+
+The production build will be generated under:
+
+frontend/dist/
+☁️ Production Deployment
+
+RegulaTrack is deployed in an AWS environment.
+
+Infrastructure
+                       AWS EC2
+                          │
+          ┌───────────────┴───────────────┐
+          │                               │
+       Nginx                         Spring Boot
+          │                               │
+    ┌─────┴─────┐                         │
+    │           │                         │
+Frontend      HTTPS                       │
+    │                                     │
+    └──────────────► Reverse Proxy ◄──────┘
+                                          │
+                                          ▼
+                                   AWS RDS PostgreSQL
+AWS / Infrastructure Components
+Amazon EC2
+Amazon RDS PostgreSQL
+Nginx
+Linux
+HTTPS
+Let's Encrypt
+Certbot
+DNS
+
+The Spring Boot backend runs as a system service, allowing the application to automatically start after server reboots.
+
+🔒 Environment Variables
+
+Production configuration uses environment variables rather than hard-coded secrets.
+
+Main configuration variables include:
+
+SPRING_PROFILES_ACTIVE=prod
+
+SPRING_DATASOURCE_URL=
+SPRING_DATASOURCE_USERNAME=
+SPRING_DATASOURCE_PASSWORD=
+
+APP_FRONTEND_URL=
+APP_FRONTEND_BASE_URL=
+
+APP_SEED_ENABLED=false
+
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_SMTP_AUTH=
+MAIL_STARTTLS=
+APP_MAIL_FROM=
+Security Notice
+
+Never commit production credentials to GitHub.
+
+Sensitive configuration must remain outside the repository.
+
+🧪 Engineering Practices
+
+The project applies several software engineering practices, including:
+
+Layered architecture
+DTO pattern
+REST API design
+Dependency Injection
+Spring Security
+JWT authentication
+Permission-based authorization
+Bean Validation
+JPA / Hibernate
+Flyway database migrations
+Angular componentization
+Route guards
+HTTP interceptors
+Environment-based configuration
+Reverse proxy
+HTTPS
+Linux deployment
+Separation of frontend, backend, and database responsibilities
+📊 Project Status
+Implemented
+ JWT authentication
+ User management
+ Permission management
+ Company management
+ Branch management
+ License management
+ Dashboard
+ Password recovery
+ PostgreSQL
+ Flyway migrations
+ REST API
+ Swagger / OpenAPI
+ Angular frontend
+ AWS deployment
+ HTTPS
+ Nginx
+ Production environment
+Future Improvements
+ Expanded automated test coverage
+ Advanced pagination
+ Advanced filtering
+ Observability improvements
+ CI/CD pipeline
+ Infrastructure monitoring
+ UI/UX improvements
+🎯 Project Goals
+
+RegulaTrack was developed as a practical full-stack SaaS project to demonstrate experience with:
+
+Full-stack development
+Software engineering
+REST APIs
+Application security
+Relational databases
+Software architecture
+Cloud deployment
+Linux server administration
+Modern frontend development
+Production-oriented application development
+
+The main goal is to build a realistic application that goes beyond a traditional CRUD project.
 
 👨‍💻 Author
 
-Developed by Igor Andrade
+Igor Andrade
 
-Full Stack Developer focused on SaaS systems, scalable architectures, and modern web applications.
+Full Stack Developer
 
-📌 Goal of This Project
+Areas of Interest
+Java
+Spring Boot
+Angular
+PostgreSQL
+REST APIs
+Cloud Computing
+Software Architecture
+📄 License
 
-This project simulates a real-world SaaS platform for regulatory compliance management, focusing on:
-
-Scalability
-Maintainability
-Security
-Clean UI/UX
-Production-like architecture
-
-## 🔑 Users & Permissions
-
-O RegulaTrack now supports granular permissions by module and action.
-
-### Modules
-
-- Dashboard: View
-- Licenses: View / Create / Update / Delete
-- Companies: View / Create / Update / Delete
-- Branches: View / Create / Update / Delete
-- Users: View / Create / Update / Delete
-
-### Security model
-
-Permissions are stored in `user_permissions`, loaded from PostgreSQL for each authenticated request, and enforced in Spring Security with `@PreAuthorize`.
-The Angular sidebar, routes, and CRUD action buttons also respect the current user's permissions.
-
-`ADMIN` always receives all permissions. `USER` receives only the permissions explicitly assigned by an administrator.
-
-### User management
-
-After login, an administrator sees **Users & Permissions** in the sidebar and can create/edit users and select permissions per module/action.
-
-API endpoints:
-
-- `GET /auth/me`
-- `GET /api/users`
-- `GET /api/users/permissions`
-- `GET /api/users/{id}`
-- `POST /api/users`
-- `PUT /api/users/{id}`
-- `DELETE /api/users/{id}`
-
-The public `/auth/register` endpoint is no longer public; it requires the `ADMIN` role.
-
-## Password Reset
-
-The login now includes `Forgot password?` and password visibility controls. Password reset tokens expire after 30 minutes and are stored hashed in the database.
-
-For local development, Docker Compose starts Mailpit so reset emails can be viewed at:
-
-- Web UI: http://localhost:8025
-- SMTP: localhost:1025
-
-The development seed assigns `admin@example.com` to the default `admin` account and `user@example.com` to the default `user` account.
-
-For production, set `APP_MAIL_ENABLED=true` and configure `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_SMTP_AUTH`, `MAIL_STARTTLS`, `APP_MAIL_FROM`, and `APP_FRONTEND_BASE_URL` with your SMTP provider. Do not commit SMTP credentials.
+This project is intended for educational, portfolio, and demonstration purposes.
