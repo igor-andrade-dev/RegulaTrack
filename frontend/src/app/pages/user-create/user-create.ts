@@ -77,8 +77,8 @@ export class UserCreate implements OnInit {
       return;
     }
 
-    if (this.form.password.length < 6) {
-      this.errorMessage = 'Password must contain at least 6 characters.';
+    if (this.form.password.length < 12 || this.form.password.length > 128) {
+      this.errorMessage = 'Password must contain between 12 and 128 characters.';
       return;
     }
 

@@ -7,16 +7,16 @@ import java.util.Set;
 
 public record CreateUserRequest(
         @NotBlank(message = "Username is required")
-        @Size(max = 80)
+        @Size(max = 80, message = "Username must be at most 80 characters")
         String username,
 
         @NotBlank(message = "Email is required")
         @Email(message = "Invalid email address")
-        @Size(max = 160)
+        @Size(max = 160, message = "Email must be at most 160 characters")
         String email,
 
         @NotBlank(message = "Password is required")
-        @Size(min = 6, message = "Password must contain at least 6 characters")
+        @Size(min = 12, max = 128, message = "Password must contain between 12 and 128 characters")
         String password,
 
         @NotBlank(message = "Role is required")

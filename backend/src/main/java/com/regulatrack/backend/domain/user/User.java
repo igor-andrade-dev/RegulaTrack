@@ -17,12 +17,15 @@ public class User {
     @Column(nullable = false, unique = true, length = 80)
     private String username;
 
-    // 🔐 Senha (armazenada com BCrypt futuramente)
+    // Password hash stored using BCrypt.
     @Column(nullable = false)
     private String password;
 
     @Column(unique = true, length = 160)
     private String email;
+
+    @Column(name = "token_version", nullable = false)
+    private long tokenVersion = 0L;
 
     // 👤 Perfil base do usuário (ADMIN / USER)
     @Enumerated(EnumType.STRING)
@@ -80,6 +83,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public long getTokenVersion() {
+        return tokenVersion;
+    }
+
+    public void setTokenVersion(long tokenVersion) {
+        this.tokenVersion = tokenVersion;
     }
 
     public void setEmail(String email) {

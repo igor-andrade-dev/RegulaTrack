@@ -21,6 +21,46 @@
 
   </header>
 
+  @if (can('LICENSES_CREATE') || can('COMPANIES_CREATE') || can('BRANCHES_CREATE') || can('USERS_CREATE')) {
+  <section class="quick-actions" aria-labelledby="quick-actions-title">
+    <div class="quick-actions-heading">
+      <div>
+        <h2 id="quick-actions-title">Quick actions</h2>
+        <p>Jump straight to the tasks you use most.</p>
+      </div>
+    </div>
+    <div class="quick-actions-list">
+      @if (can('LICENSES_CREATE')) {
+        <a routerLink="/licenses/new" class="quick-action">
+          <span class="quick-action-icon" aria-hidden="true">＋</span>
+          <span><strong>Add license</strong><small>Register a regulatory license</small></span>
+          <span class="quick-action-arrow" aria-hidden="true">→</span>
+        </a>
+      }
+      @if (can('COMPANIES_CREATE')) {
+        <a routerLink="/companies/new" class="quick-action">
+          <span class="quick-action-icon" aria-hidden="true">＋</span>
+          <span><strong>Add company</strong><small>Create a company record</small></span>
+          <span class="quick-action-arrow" aria-hidden="true">→</span>
+        </a>
+      }
+      @if (can('BRANCHES_CREATE')) {
+        <a routerLink="/branches/new" class="quick-action">
+          <span class="quick-action-icon" aria-hidden="true">＋</span>
+          <span><strong>Add branch</strong><small>Register a company location</small></span>
+          <span class="quick-action-arrow" aria-hidden="true">→</span>
+        </a>
+      }
+      @if (can('USERS_CREATE')) {
+        <a routerLink="/users/new" class="quick-action">
+          <span class="quick-action-icon" aria-hidden="true">＋</span>
+          <span><strong>Add user</strong><small>Invite a teammate</small></span>
+          <span class="quick-action-arrow" aria-hidden="true">→</span>
+        </a>
+      }
+    </div>
+  </section>
+  }
 
   @if (summary$ | async; as s) {
 

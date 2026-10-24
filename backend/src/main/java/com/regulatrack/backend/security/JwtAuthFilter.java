@@ -13,9 +13,11 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtUtil jwtUtil;
 
-    public JwtAuthFilter(UserDetailsServiceImpl userDetailsService) {
+    public JwtAuthFilter(UserDetailsServiceImpl userDetailsService, JwtUtil jwtUtil) {
         this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -40,8 +42,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         try {
             String token = header.substring(7);
-            String username = JwtUtil.validateToken(token);
+            String username = jwtUtil.validateToken(token);
             var userDetails = userDetailsService.loadUserByUsername(username);
+            if (!(userDetails instanceof UserDetailsImpl appUser)
+                    || jwtUtil.extractTokenVersion(token) != appUser.getUser().getTokenVersion()) {
+                throw new IllegalArgumentException("Stale access token");
+            }
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(

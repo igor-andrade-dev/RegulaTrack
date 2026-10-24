@@ -3,6 +3,7 @@ import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService, PermissionOption, AppUser, UserPayload } from '../../services/user';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-user-edit', standalone: true,
@@ -13,6 +14,7 @@ export class UserEdit implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly service = inject(UserService);
+  private readonly auth = inject(AuthService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   userId = 0;
@@ -57,9 +59,24 @@ export class UserEdit implements OnInit {
     if (!this.user || this.saving) return;
     this.saving = true;
     this.errorMessage = '';
+    if (this.form.password && (this.form.password.length < 12 || this.form.password.length > 128)) {
+      this.saving = false;
+      this.errorMessage = 'A new password must contain between 12 and 128 characters.';
+      return;
+    }
+    const changingCurrentPassword = Boolean(this.form.password)
+      && this.auth.currentUser?.id === this.userId;
     const request: UserPayload = { username: this.form.username, email: this.form.email, password: this.form.password, role: this.form.role, permissions: [...this.form.permissions] };
     this.service.update(this.userId, request).subscribe({
-      next: () => { this.saving = false; this.router.navigate(['/users']); },
+      next: () => {
+        this.saving = false;
+        if (changingCurrentPassword) {
+          this.auth.logout();
+          this.router.navigate(['/login']);
+          return;
+        }
+        this.router.navigate(['/users']);
+      },
       error: (error) => this.fail(error, 'Unable to save changes.'),
     });
   }

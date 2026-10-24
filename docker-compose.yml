@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: regulatrack
       POSTGRES_PASSWORD: regulatrack
     ports:
-      - "5433:5432"
+      - "127.0.0.1:5433:5432"
     volumes:
       - regulatrack_pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -20,8 +20,8 @@ services:
     image: axllent/mailpit:latest
     container_name: regulatrack_mailpit
     ports:
-      - "1025:1025"
-      - "8025:8025"
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
 
   backend:
     build:
@@ -34,11 +34,14 @@ services:
         condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: default
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in the root .env file before starting the stack}
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/regulatrack
       SPRING_DATASOURCE_USERNAME: regulatrack
       SPRING_DATASOURCE_PASSWORD: regulatrack
       SERVER_PORT: 8080
-      APP_SEED_ENABLED: true
+      APP_SEED_ENABLED: ${APP_SEED_ENABLED:-false}
+      APP_SEED_ADMIN_PASSWORD: ${APP_SEED_ADMIN_PASSWORD:-}
+      APP_SEED_USER_PASSWORD: ${APP_SEED_USER_PASSWORD:-}
       APP_FRONTEND_BASE_URL: http://localhost:4200
       APP_MAIL_ENABLED: true
       APP_MAIL_FROM: no-reply@regulatrack.local
@@ -51,7 +54,7 @@ services:
     volumes:
       - regulatrack_documents:/app/storage/documents
     ports:
-      - "8083:8080"
+      - "127.0.0.1:8083:8080"
 
 volumes:
   regulatrack_pgdata:

@@ -169,3 +169,20 @@ html[data-theme="dark"] .filter-primary {
   background: #4f46e5 !important;
   color: #fff !important;
 }
+
+
+/* Consistent keyboard focus and reduced-motion support across the application. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid rgba(79, 70, 229, 0.45);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

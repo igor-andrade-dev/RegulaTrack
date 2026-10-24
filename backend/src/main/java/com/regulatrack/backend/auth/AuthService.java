@@ -19,13 +19,16 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public AuthService(AuthenticationManager authenticationManager,
                        UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+                       PasswordEncoder passwordEncoder,
+                       JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public String login(String username, String password) {
@@ -40,9 +43,10 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // 🔥 gera token com ROLE
-        return JwtUtil.generateToken(
+        return jwtUtil.generateToken(
                 user.getUsername(),
-                user.getRole().name()
+                user.getRole().name(),
+                user.getTokenVersion()
         );
     }
 

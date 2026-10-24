@@ -14,8 +14,8 @@
         <div class="form-section">
           <div class="section-header"><h2>User Information</h2><p>Update the account information below.</p></div>
           <div class="form-grid">
-            <label class="form-field"><span>Username</span><input name="username" [(ngModel)]="form.username" required autocomplete="username" /></label><label class="form-field"><span>Email</span><input name="email" type="email" [(ngModel)]="form.email" required autocomplete="email" /></label>
-            <label class="form-field"><span>New Password</span><input name="password" type="password" [(ngModel)]="form.password" autocomplete="new-password" placeholder="Leave blank to keep current password" /></label>
+            <label class="form-field"><span>Username</span><input name="username" [(ngModel)]="form.username" required maxlength="80" autocomplete="username" /></label><label class="form-field"><span>Email</span><input name="email" type="email" [(ngModel)]="form.email" required maxlength="160" autocomplete="email" /></label>
+            <label class="form-field"><span>New Password</span><input name="password" type="password" [(ngModel)]="form.password" minlength="12" maxlength="128" autocomplete="new-password" placeholder="At least 12 characters" /><small>Leave blank to keep the current password; a new one must be 12–128 characters.</small></label>
             <label class="form-field"><span>Role</span><select name="role" [(ngModel)]="form.role"><option value="USER">USER</option><option value="ADMIN">ADMIN</option></select></label>
           </div>
         </div>

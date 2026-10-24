@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { DashboardService, DashboardSummary } from '../../services/dashboard';
 
 import { License, LicenseService } from '../../services/license';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,7 @@ export class Dashboard implements OnInit {
   private readonly dashboardService = inject(DashboardService);
 
   private readonly licenseService = inject(LicenseService);
+  private readonly auth = inject(AuthService);
 
   summary$!: ReturnType<DashboardService['getSummary']>;
 
@@ -29,6 +31,10 @@ export class Dashboard implements OnInit {
       page: 0,
       size: 5,
     });
+  }
+
+  can(permission: string): boolean {
+    return this.auth.hasPermission(permission);
   }
 
   getTotalStatuses(summary: DashboardSummary): number {

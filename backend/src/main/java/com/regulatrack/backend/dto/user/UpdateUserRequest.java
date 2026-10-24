@@ -7,15 +7,16 @@ import java.util.Set;
 
 public record UpdateUserRequest(
         @NotBlank(message = "Username is required")
-        @Size(max = 80)
+        @Size(max = 80, message = "Username must be at most 80 characters")
         String username,
 
         @NotBlank(message = "Email is required")
         @Email(message = "Invalid email address")
-        @Size(max = 160)
+        @Size(max = 160, message = "Email must be at most 160 characters")
         String email,
 
-        @Size(min = 6, message = "Password must contain at least 6 characters")
+        // Blank/null means the current password stays unchanged; a provided password is checked in the service.
+        @Size(max = 128, message = "Password must be at most 128 characters")
         String password,
 
         @NotBlank(message = "Role is required")

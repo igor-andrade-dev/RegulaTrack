@@ -34,7 +34,7 @@ public class UserService {
         if (userRepository.existsByUsername(request.username())) {
             throw new IllegalArgumentException("Username already exists");
         }
-        if (request.email() != null && userRepository.findByEmail(request.email().trim().toLowerCase(Locale.ROOT)).isPresent()) {
+        if (request.email() != null && userRepository.findByEmailIgnoreCase(request.email().trim().toLowerCase(Locale.ROOT)).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
         }
         User user = new User();
@@ -54,7 +54,7 @@ public class UserService {
         }
         String normalizedEmail = request.email().trim().toLowerCase(Locale.ROOT);
         if (!normalizedEmail.equalsIgnoreCase(user.getEmail() == null ? "" : user.getEmail())
-                && userRepository.findByEmail(normalizedEmail).filter(existing -> !existing.getId().equals(id)).isPresent()) {
+                && userRepository.findByEmailIgnoreCase(normalizedEmail).filter(existing -> !existing.getId().equals(id)).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
         }
         Role newRole = parseRole(request.role());
@@ -67,7 +67,11 @@ public class UserService {
         user.setRole(newRole);
         user.setPermissions(parsePermissions(request.permissions()));
         if (request.password() != null && !request.password().isBlank()) {
+            if (request.password().length() < 12 || request.password().length() > 128) {
+                throw new IllegalArgumentException("Password must contain between 12 and 128 characters");
+            }
             user.setPassword(passwordEncoder.encode(request.password()));
+            user.setTokenVersion(user.getTokenVersion() + 1L);
         }
         return toResponse(userRepository.save(user));
     }

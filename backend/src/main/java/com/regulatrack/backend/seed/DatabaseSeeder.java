@@ -13,6 +13,7 @@ import com.regulatrack.backend.repository.license.LicenseRepository;
 import com.regulatrack.backend.repository.user.UserRepository;
 import com.regulatrack.backend.service.license.LicenseStatusService;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,9 @@ public class DatabaseSeeder {
             LicenseRepository licenseRepository,
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            LicenseStatusService licenseStatusService
+            LicenseStatusService licenseStatusService,
+            @Value("${app.seed.admin-password:}") String adminPassword,
+            @Value("${app.seed.user-password:}") String userPassword
     ) {
         return args -> {
 
@@ -43,11 +46,17 @@ public class DatabaseSeeder {
             }
 
             if (userRepository.count() == 0) {
+                if (adminPassword.length() < 12 || adminPassword.length() > 128
+                        || userPassword.length() < 12 || userPassword.length() > 128) {
+                    throw new IllegalStateException(
+                            "Database seeding requires APP_SEED_ADMIN_PASSWORD and APP_SEED_USER_PASSWORD to each contain 12–128 characters."
+                    );
+                }
 
                 User admin = new User();
                 admin.setUsername("admin");
                 admin.setEmail("admin@example.com");
-                admin.setPassword(passwordEncoder.encode("123"));
+                admin.setPassword(passwordEncoder.encode(adminPassword));
                 admin.setRole(Role.ADMIN);
                 admin.setPermissions(EnumSet.allOf(Permission.class));
                 userRepository.save(admin);
@@ -55,7 +64,7 @@ public class DatabaseSeeder {
                 User user = new User();
                 user.setUsername("user");
                 user.setEmail("user@example.com");
-                user.setPassword(passwordEncoder.encode("123"));
+                user.setPassword(passwordEncoder.encode(userPassword));
                 user.setRole(Role.USER);
                 user.setPermissions(EnumSet.of(
                         Permission.DASHBOARD_VIEW,

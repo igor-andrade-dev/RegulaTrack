@@ -52,21 +52,22 @@ export class Login {
       next: () => {
         this.auth.loadCurrentUser().subscribe({
           next: () => {
+            this.loading = false;
             this.router.navigate(['/dashboard']);
           },
-
           error: () => {
-            this.router.navigate(['/dashboard']);
+            this.auth.logout();
+            this.loading = false;
+            this.errorMessage = 'We could not load your account details. Please sign in again.';
           },
         });
       },
 
       error: (error) => {
-        console.error('Login error:', error);
-
         this.loading = false;
-
-        this.errorMessage = 'Invalid username or password.';
+        this.errorMessage = error?.status === 0 || error?.status >= 500
+          ? 'The service is temporarily unavailable. Please try again shortly.'
+          : 'Invalid username or password.';
       },
     });
   }

@@ -1,0 +1,5 @@
+# Include this file inside the nginx `http { ... }` block.
+# These zones are per source IP. If another trusted proxy sits in front of Nginx,
+# configure ngx_http_realip_module using only that proxy's known IP ranges first.
+limit_req_zone $binary_remote_addr zone=regulatrack_login:10m rate=10r/m;
+limit_req_zone $binary_remote_addr zone=regulatrack_password_reset:10m rate=3r/m;

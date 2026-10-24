@@ -15,8 +15,8 @@
       <div class="form-section">
         <div class="section-header"><h2>User Information</h2><p>Account credentials and role.</p></div>
         <div class="form-grid">
-          <label class="form-field"><span>Username</span><input name="username" [(ngModel)]="form.username" required autocomplete="username" placeholder="Enter username" /></label><label class="form-field"><span>Email</span><input name="email" type="email" [(ngModel)]="form.email" required autocomplete="email" placeholder="name@company.com" /></label>
-          <label class="form-field"><span>Password</span><input name="password" type="password" [(ngModel)]="form.password" required minlength="6" autocomplete="new-password" placeholder="Enter password" /><small>Minimum 6 characters.</small></label>
+          <label class="form-field"><span>Username</span><input name="username" [(ngModel)]="form.username" required maxlength="80" autocomplete="username" placeholder="Enter username" /></label><label class="form-field"><span>Email</span><input name="email" type="email" [(ngModel)]="form.email" required maxlength="160" autocomplete="email" placeholder="name@company.com" /></label>
+          <label class="form-field"><span>Password</span><input name="password" type="password" [(ngModel)]="form.password" required minlength="12" maxlength="128" autocomplete="new-password" placeholder="At least 12 characters" /><small>Use 12–128 characters. A unique passphrase is recommended.</small></label>
           <label class="form-field"><span>Role</span><select name="role" [(ngModel)]="form.role"><option value="USER">USER</option><option value="ADMIN">ADMIN</option></select></label>
         </div>
       </div>
